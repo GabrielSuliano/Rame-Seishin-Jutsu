@@ -2,9 +2,12 @@
 @import url("base.css");
 
 .hero-interno-vermelho {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.18) 100%),
-    url("../imagens/foto2.png") center top / cover no-repeat,
+    url("../imagens/foto2.png") center 18% / cover no-repeat,
     var(--cor-vermelha);
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
 }
@@ -156,6 +159,7 @@
 
 /* Responsivo */
 @media (max-width: 900px) {
+  .hero-interno-vermelho { min-height: 430px; }
   .grade-cartoes-2,
   .grade-caminho { grid-template-columns: 1fr; gap: 28px; }
   .linhagem-fundamentos { grid-template-columns: 1fr; gap: 28px; }
@@ -168,6 +172,11 @@
 }
 
 @media (max-width: 640px) {
+  .hero-interno-vermelho {
+    min-height: 360px;
+    background-position: center 16%;
+  }
+
   .cartao-fundamento { padding: 22px; }
   .cartao-simples { padding: 20px; }
   .linhagem-fundamentos img { min-height: 270px; }

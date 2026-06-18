@@ -2,9 +2,12 @@
 @import url("base.css");
 
 .hero-interno-preto {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.16) 100%),
-    url("../imagens/foto1.png") center top / cover no-repeat,
+    url("../imagens/foto1.png") center 20% / cover no-repeat,
     var(--cor-preta);
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
 }
@@ -167,6 +170,7 @@
 }
 
 @media (max-width: 900px) {
+  .hero-interno-preto { min-height: 430px; }
   .grade-editorial-2,
   .grade-samurai { grid-template-columns: 1fr; }
   .galeria-historia { grid-template-columns: 1fr; }
@@ -177,6 +181,11 @@
 }
 
 @media (max-width: 700px) {
+  .hero-interno-preto {
+    min-height: 360px;
+    background-position: center 18%;
+  }
+
   .grade-bushido { grid-template-columns: 1fr; gap: 16px; }
   .cartao-brasao { padding: 28px 20px; }
   .brasao-logo { width: 112px; height: 112px; }

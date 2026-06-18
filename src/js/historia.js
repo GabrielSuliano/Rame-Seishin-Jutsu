@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
  * Inicializa página de história
  */
 function inicializarHistoria() {
-  aplicarAnimacoesScroll();
   configurarLeituraDinamica();
 }
 
@@ -20,21 +19,7 @@ function inicializarHistoria() {
  * Aplica animações ao scroll
  */
 function aplicarAnimacoesScroll() {
-  const secoes = document.querySelectorAll('section');
-
-  const observador = new IntersectionObserver((entradas) => {
-    entradas.forEach(entrada => {
-      if (entrada.isIntersecting) {
-        entrada.target.style.opacity = '1';
-        entrada.target.style.transition = 'opacity 0.8s ease';
-      }
-    });
-  });
-
-  secoes.forEach(secao => {
-    secao.style.opacity = '0';
-    observador.observe(secao);
-  });
+  return;
 }
 
 /**

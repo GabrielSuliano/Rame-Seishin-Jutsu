@@ -16,7 +16,6 @@ function inicializarFundamentos() {
   // carregarFundamentosDinamicos();
 
   configurarAbas();
-  aplicarAnimacoesScroll();
 }
 
 /**
@@ -82,21 +81,5 @@ function ativarAba(nomeAba) {
  * Aplica animações de scroll
  */
 function aplicarAnimacoesScroll() {
-  const cards = document.querySelectorAll('.cartao-fundamento, .treino-destaque, .cartao-simples, .item-caminho');
-
-  const observador = new IntersectionObserver((entradas) => {
-    entradas.forEach(entrada => {
-      if (entrada.isIntersecting) {
-        entrada.target.style.opacity = '1';
-        entrada.target.style.transform = 'translateY(0)';
-      }
-    });
-  });
-
-  cards.forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'all 0.6s ease';
-    observador.observe(card);
-  });
+  return;
 }

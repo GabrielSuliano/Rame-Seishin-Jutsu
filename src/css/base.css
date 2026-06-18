@@ -1,0 +1,576 @@
+/**
+ * BASE GLOBAL - Estilos compartilhados
+ * Variáveis, reset, layout, header, footer, responsividade
+ */
+
+/* Variáveis globais de tema */
+:root {
+  --cor-preta: #050505;
+  --cor-preta-suave: #1d1d1d;
+  --cor-preta-card: #1f1f1f;
+  --cor-branca: #ffffff;
+  --cor-cinza-texto: #5e6470;
+  --cor-cinza-borda: #e5e5e5;
+  --cor-vermelha: #ff000f;
+  --cor-vermelha-escura: #b30d17;
+  --cor-vermelha-vinho: #320406;
+  --largura-conteudo: 1080px;
+  --raio-grande: 22px;
+  --raio-medio: 18px;
+  --cor-texto-primario: #101010;
+  --cor-texto-claro: #f2f2f2;
+  --cor-texto-meio: #a5a5a5;
+  --cor-borda-leve: rgba(255, 255, 255, 0.08);
+  --cor-fundo-botao-secundario: rgba(255, 255, 255, 0.14);
+  --cor-borda-botao-secundario: rgba(255, 255, 255, 0.25);
+}
+
+/* Reset e normalização */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--cor-texto-primario); background: var(--cor-branca); line-height: 1.6; }
+img { max-width: 100%; display: block; height: auto; }
+a { color: inherit; text-decoration: none; }
+
+/* Layout container */
+.conteiner {
+  width: min(var(--largura-conteudo), 92vw);
+  margin: 0 auto;
+}
+
+/* Header - fixado no topo com z-index */
+.topo-site {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--cor-preta);
+  border-bottom: 1px solid var(--cor-borda-leve);
+}
+
+.topo-conteudo {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Marca/Logo */
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.marca-selo {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: visible;
+  padding: 0;
+}
+
+.marca-selo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.icone-quadrado svg,
+.icone-circulo svg,
+.icone-contato svg {
+  display: block;
+  width: 1.45em;
+  height: 1.45em;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.marca-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.marca-titulo {
+  color: var(--cor-branca);
+  font-size: 1.02rem;
+  font-weight: 700;
+}
+
+.marca-subtitulo {
+  color: var(--cor-texto-meio);
+  font-size: 0.78rem;
+}
+
+/**
+ * Links do menu de navegação
+ * Transição suave na cor e borda ao passar o mouse
+ * Borda inferior aparece ao ativar (página atual)
+ */
+.menu-principal a {
+  color: var(--cor-texto-claro);
+  font-size: 0.98rem;
+  padding: 24px 2px 20px;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+/**
+ * Estado ativo e hover do menu
+ * Muda a cor para vermelho e mostra borda inferior
+ */
+.menu-principal a:hover,
+.menu-principal a.ativo {
+  color: var(--cor-vermelha);
+  border-color: var(--cor-vermelha);
+}
+
+/* Menu principal - layout com espaçamento entre links */
+.menu-principal {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  justify-content: flex-end;
+}
+
+/* ============================================================
+   5. SEÇÕES E COMPONENTES PRINCIPAIS
+   ============================================================ */
+
+/**
+ * Botões genéricos reutilizáveis
+ * Classe base com estilo comum
+ */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 186px;
+  padding: 16px 28px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.botao:hover {
+  opacity: 0.9;
+}
+
+/**
+ * Variante primária do botão
+ * Fundo vermelho com texto branco (destaque)
+ */
+.botao-primario {
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+}
+
+/**
+ * Variante secundária do botão
+ * Fundo transparente com borda
+ */
+.botao-secundario {
+  background: var(--cor-fundo-botao-secundario);
+  border-color: var(--cor-borda-botao-secundario);
+  color: var(--cor-branca);
+}
+
+/**
+ * Seção padrão do site
+ * Define espaçamento vertical padrão
+ */
+.secao {
+  padding: 74px 0;
+}
+
+/**
+ * Seção com fundo claro
+ */
+.secao-clara {
+  background: var(--cor-branca);
+}
+
+/**
+ * Seção com fundo escuro
+ * Muda cor do texto para branco
+ */
+.secao-escura {
+  background: var(--cor-preta-suave);
+  color: var(--cor-branca);
+}
+
+/**
+ * Cabeçalho centralizado de seção
+ * Usado em seções para destacar título e descrição
+ */
+.secao-cabecalho-centralizado {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+/**
+ * Título h2 do cabeçalho centralizado
+ * Responsivo com tamanho fluido (clamp)
+ */
+.secao-cabecalho-centralizado h2 {
+  margin: 0 0 10px;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+  font-weight: 500;
+}
+
+/**
+ * Parágrafo descritivo do cabeçalho centralizado
+ */
+.secao-cabecalho-centralizado p {
+  margin: 0;
+  color: var(--cor-cinza-texto);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/**
+ * Parágrafo em seção escura (cor ajustada)
+ */
+.secao-escura .secao-cabecalho-centralizado p {
+  color: #bdbdbd;
+}
+
+/**
+ * Hero interno preto
+ * Seção introdutória com fundo escuro e gradiente
+ */
+.hero-interno-preto {
+  background: linear-gradient(180deg, #050505 0%, #080808 100%);
+  color: var(--cor-branca);
+  text-align: center;
+  padding: 92px 0 84px;
+}
+
+/**
+ * Hero interno vermelho
+ * Seção introdutória com fundo vermelho e gradiente
+ */
+.hero-interno-vermelho {
+  background: linear-gradient(180deg, var(--cor-vermelha) 0%, var(--cor-vermelha-escura) 100%);
+  color: var(--cor-branca);
+  text-align: center;
+  padding: 82px 0 78px;
+}
+
+/**
+ * Títulos h1 dos heróis internos
+ * Tamanho grande e responsivo
+ */
+.hero-interno-preto h1,
+.hero-interno-vermelho h1 {
+  margin: 0 0 14px;
+  font-size: clamp(3rem, 5vw, 4.8rem);
+  font-weight: 600;
+}
+
+/**
+ * Parágrafos descritivos dos heróis internos
+ */
+.hero-interno-preto p,
+.hero-interno-vermelho p {
+  margin: 0;
+  font-size: 1rem;
+  color: #ededed;
+}
+
+/**
+ * Título com linhas decorativas
+ * Linhas vermelhas aparecem antes e depois do título
+ */
+.titulo-com-linhas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+/**
+ * Linhas decorativas do título
+ * Criadas com pseudo-elementos ::before e ::after
+ */
+.titulo-com-linhas::before,
+.titulo-com-linhas::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 4px;
+  background: var(--cor-vermelha);
+}
+
+/**
+ * Variante esquerda do título com linhas
+ * Remove a linha decorativa direita
+ */
+.titulo-com-linhas.esquerda {
+  justify-content: flex-start;
+}
+
+.titulo-com-linhas.esquerda::after {
+  display: none;
+}
+
+/**
+ * Título h2 dentro do componente com linhas
+ */
+.titulo-com-linhas h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+}
+
+/**
+ * Texto editorial com títulos e parágrafos
+ * Usado para conteúdo longo e estruturado
+ */
+.texto-editorial h2,
+.texto-editorial h3 {
+  margin: 0 0 20px;
+  font-size: clamp(2.2rem, 4vw, 3.1rem);
+  font-weight: 500;
+}
+
+/**
+ * Parágrafos em blocos editoriais
+ */
+.texto-editorial p {
+  margin: 0 0 24px;
+  color: var(--cor-cinza-texto);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+/* ============================================================
+   6. RODAPÉ
+   ============================================================ */
+
+/**
+ * Rodapé do site com fundo escuro
+ * Contém informações de contato, links rápidos e copyright
+ */
+.rodape {
+  background: var(--cor-preta);
+  color: var(--cor-branca);
+  padding-top: 44px;
+}
+
+/**
+ * Grade de 3 colunas para organizar conteúdo do rodapé
+ * Distribuição: descrição 1.3fr + 2 colunas de 1fr cada
+ */
+.grade-rodape {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 28px;
+}
+
+/**
+ * Títulos das seções do rodapé
+ * Em cor vermelha para destaque
+ */
+.rodape h3 {
+  margin: 0 0 18px;
+  color: var(--cor-vermelha);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/**
+ * Textos, links e itens de lista no rodapé
+ * Cor cinzenta suave para hierarquia visual
+ */
+.rodape p,
+.rodape li,
+.rodape a {
+  color: #b3b3b3;
+  line-height: 1.9;
+  margin: 0;
+}
+
+/**
+ * Links específicos no rodapé
+ * Transição suave ao passar o mouse
+ */
+.rodape a {
+  transition: color 0.2s ease;
+}
+
+.rodape a:hover {
+  color: var(--cor-vermelha);
+}
+
+/**
+ * Lista não ordenada no rodapé
+ * Remove estilo padrão de lista
+ */
+.lista-rodape {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lista-rodape li {
+  margin: 8px 0;
+}
+
+/**
+ * Linha final e copyright do rodapé
+ * Informação legal centralizada
+ */
+.linha-final-rodape {
+  margin: 0;
+  padding: 20px 0 24px;
+  border-top: 1px solid var(--cor-borda-leve);
+  text-align: center;
+  color: #7f7f7f;
+  font-size: 0.92rem;
+}
+
+/* ============================================================
+   7. RESPONSIVIDADE
+   ============================================================ */
+
+/**
+ * Breakpoint médio (tablets)
+ * Ajusta layout para telas menores que 900px
+ */
+@media (max-width: 900px) {
+  /**
+   * Cabeçalho em telas pequenas
+   * Muda para coluna única e centraliza conteúdo
+   */
+  .topo-conteudo {
+    flex-direction: column;
+    justify-content: center;
+    padding: 14px 0 8px;
+  }
+
+  /**
+   * Menu principal em telas pequenas
+   * Centraliza e reduz espaçamento
+   */
+  .menu-principal {
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .menu-principal a {
+    padding: 10px 0 12px;
+    font-size: 0.92rem;
+  }
+
+  /**
+   * Rodapé em telas pequenas
+   * Uma coluna única para melhor legibilidade
+   */
+  .grade-rodape {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /**
+   * Reduz espaçamento vertical das seções
+   */
+  .secao {
+    padding: 56px 0;
+  }
+}
+
+/**
+ * Breakpoint pequeno (mobile)
+ * Ajusta layout para telas menores que 700px
+ */
+@media (max-width: 700px) {
+  /**
+   * Seção com espaçamento reduzido
+   */
+  .secao {
+    padding: 48px 0;
+  }
+
+  /**
+   * Linhas decorativas menores em telas pequenas
+   */
+  .titulo-com-linhas::before,
+  .titulo-com-linhas::after {
+    width: 42px;
+  }
+
+  /**
+   * Cabeçalho centralizado em telas pequenas
+   */
+  .secao-cabecalho-centralizado {
+    margin: 0 auto 36px;
+  }
+
+  /**
+   * Fonte menor para heróis em telas pequenas
+   */
+  .hero-interno-preto h1,
+  .hero-interno-vermelho h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+}
+
+/**
+ * Breakpoint extra pequeno (mobile pequeno)
+ * Otimizações para telas muito pequenas
+ */
+@media (max-width: 480px) {
+  /**
+   * Marca ocupa menos espaço
+   */
+  .marca {
+    gap: 8px;
+  }
+
+  .marca-selo {
+    width: 46px;
+    height: 46px;
+  }
+
+  .marca-titulo {
+    font-size: 0.95rem;
+  }
+
+  /**
+   * Botões mais compactos
+   */
+  .botao {
+    min-width: 160px;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+  }
+
+  /**
+   * Texto reduzido em rodapé
+   */
+  .rodape h3 {
+    font-size: 1rem;
+  }
+}

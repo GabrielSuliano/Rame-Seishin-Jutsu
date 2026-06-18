@@ -1,0 +1,181 @@
+/** CSS FUNDAMENTOS - Cartões e caminho de treino */
+@import url("base.css");
+
+.hero-interno-vermelho {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.18) 100%),
+    url("../imagens/foto2.png") center top / cover no-repeat,
+    var(--cor-vermelha);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
+}
+
+.espaco-topo-pequeno {
+  padding-top: 20px;
+}
+
+/* Grades de cartões */
+.grade-cartoes-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+}
+
+.cartao-fundamento {
+  border-radius: var(--raio-grande);
+  padding: 34px;
+  min-height: 276px;
+  transition: transform 0.3s ease;
+}
+
+.cartao-fundamento:hover { transform: translateY(-4px); }
+.cartao-fundamento.escuro { background: var(--cor-preta-card); color: var(--cor-branca); }
+.cartao-fundamento.vermelho { background: var(--cor-vermelha); color: var(--cor-branca); }
+
+.icone-quadrado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.icone-quadrado.claro {
+  background: var(--cor-branca);
+  color: var(--cor-vermelha);
+}
+
+.cartao-fundamento h3 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cartao-fundamento p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.9;
+}
+
+/* Cartões simples */
+.lista-cartoes-simples {
+  display: grid;
+  gap: 28px;
+}
+
+.cartao-simples {
+  background: var(--cor-branca);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: var(--raio-grande);
+  padding: 28px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.2s ease;
+}
+
+.cartao-simples:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); }
+.cartao-simples h3 { margin: 0 0 18px; font-size: 1.1rem; font-weight: 600; }
+.cartao-simples p { margin: 0; color: var(--cor-cinza-texto); line-height: 1.8; }
+
+.linhagem-fundamentos {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 44px;
+  align-items: center;
+}
+
+.linhagem-fundamentos img {
+  width: 100%;
+  min-height: 410px;
+  border-radius: var(--raio-grande);
+  object-fit: cover;
+  object-position: center top;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
+}
+
+.treino-destaque {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 34px;
+  border-radius: var(--raio-grande);
+  background: var(--cor-preta-card);
+  color: var(--cor-branca);
+}
+
+.treino-destaque img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.treino-destaque-texto {
+  padding: 36px;
+}
+
+.treino-destaque-texto span {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--cor-vermelha);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.treino-destaque-texto h3 {
+  margin: 0 0 14px;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.15;
+}
+
+.treino-destaque-texto p {
+  margin: 0;
+  color: #dddddd;
+  line-height: 1.8;
+}
+
+/* Grade do caminho */
+.grade-caminho {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+
+.item-caminho { color: var(--cor-branca); }
+.item-caminho strong { display: block; color: var(--cor-branca); font-size: 4.2rem; margin-bottom: 14px; font-weight: 500; }
+.item-caminho h3 { margin: 0 0 12px; color: var(--cor-branca); font-size: 1.1rem; font-weight: 600; }
+.item-caminho p { margin: 0; color: #bbbbbb; line-height: 1.75; }
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .grade-cartoes-2,
+  .grade-caminho { grid-template-columns: 1fr; gap: 28px; }
+  .linhagem-fundamentos { grid-template-columns: 1fr; gap: 28px; }
+  .linhagem-fundamentos img { min-height: 330px; }
+  .grade-cartoes-2 { gap: 24px; }
+  .cartao-fundamento { min-height: auto; padding: 28px; }
+  .item-caminho strong { font-size: 3rem; margin-bottom: 10px; }
+  .treino-destaque { grid-template-columns: 1fr; }
+  .treino-destaque img { height: 320px; }
+}
+
+@media (max-width: 640px) {
+  .cartao-fundamento { padding: 22px; }
+  .cartao-simples { padding: 20px; }
+  .linhagem-fundamentos img { min-height: 270px; }
+  .treino-destaque img { height: 260px; }
+  .treino-destaque-texto { padding: 24px; }
+  .icone-quadrado { width: 48px; height: 48px; font-size: 1.3rem; }
+  .cartao-fundamento h3,
+  .cartao-simples h3,
+  .item-caminho h3 { font-size: 1rem; }
+  .item-caminho strong { font-size: 2.5rem; }
+}

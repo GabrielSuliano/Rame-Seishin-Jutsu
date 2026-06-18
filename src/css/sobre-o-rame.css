@@ -1,0 +1,199 @@
+/** CSS SOBRE O RAME - Filosofia, pilares, academias */
+@import url("base.css");
+
+/* Cartões de filosofia */
+.grade-cartoes-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+}
+
+.cartao-filosofia {
+  border-radius: var(--raio-grande);
+  padding: 34px;
+  min-height: 276px;
+  transition: transform 0.3s ease;
+}
+
+.cartao-filosofia:hover { transform: translateY(-4px); }
+.cartao-filosofia.escuro { background: var(--cor-preta-card); color: var(--cor-branca); }
+.cartao-filosofia.vermelho { background: var(--cor-vermelha); color: var(--cor-branca); }
+
+.icone-quadrado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.icone-quadrado.claro { background: var(--cor-branca); color: var(--cor-vermelha); }
+.cartao-filosofia h3 { margin: 0 0 14px; font-size: 1.1rem; font-weight: 600; }
+.cartao-filosofia p { margin: 0; font-size: 0.98rem; line-height: 1.9; }
+
+/* Pilares */
+.grade-pilares {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  text-align: center;
+}
+
+.pilar { color: var(--cor-branca); }
+
+.icone-circulo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
+  border-radius: 999px;
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.pilar h3 { margin: 0 0 10px; font-size: 1rem; font-weight: 600; }
+.pilar p { margin: 0; color: #b9b9b9; line-height: 1.65; font-size: 0.95rem; }
+
+/* Academias */
+.grade-academias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.cartao-academia {
+  background: var(--cor-preta-card);
+  color: var(--cor-branca);
+  border-radius: var(--raio-grande);
+  padding: 30px 26px;
+  transition: transform 0.3s ease;
+}
+
+.cartao-academia-imagem {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 14px;
+  margin-bottom: 22px;
+}
+
+.cartao-academia:hover { transform: translateY(-4px); }
+.cartao-academia h3 { margin: 0 0 16px; font-size: 1.05rem; line-height: 1.35; font-weight: 600; }
+.cartao-academia p { margin: 0 0 24px; color: #d5d5d5; line-height: 1.65; font-size: 0.98rem; }
+
+.link-saiba-mais {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cor-branca);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.link-saiba-mais:hover { color: var(--cor-vermelha); }
+
+.bloco-identidade {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 44px;
+  align-items: center;
+}
+
+.bloco-identidade img {
+  width: 100%;
+  min-height: 430px;
+  border-radius: var(--raio-grande);
+  object-fit: cover;
+  object-position: center top;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.14);
+}
+
+/* Chamada final */
+.chamada-final {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  color: var(--cor-branca);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.18) 100%),
+    url("../imagens/foto2.png") center top / cover no-repeat,
+    var(--cor-preta);
+  text-align: center;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
+}
+
+.chamada-final h2 { margin: 0 0 16px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; }
+.chamada-final p { margin: 0 0 28px; font-size: 1.1rem; color: #ebebeb; }
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .grade-cartoes-2,
+  .grade-pilares,
+  .grade-academias { grid-template-columns: 1fr; gap: 24px; }
+  .bloco-identidade { grid-template-columns: 1fr; gap: 28px; }
+  .bloco-identidade img { min-height: 340px; }
+  .grade-cartoes-2 { gap: 28px; }
+  .cartao-filosofia { min-height: auto; padding: 28px; }
+  .icone-circulo { width: 64px; height: 64px; font-size: 1.5rem; }
+  .pilar h3 { font-size: 0.95rem; }
+}
+
+@media (max-width: 640px) {
+  .grade-cartoes-2,
+  .grade-academias { gap: 20px; }
+  .cartao-filosofia { padding: 22px; }
+  .cartao-academia { padding: 22px 18px; }
+  .bloco-identidade img { min-height: 280px; }
+  .icone-quadrado { width: 48px; height: 48px; font-size: 1.3rem; }
+  .icone-circulo { width: 56px; height: 56px; font-size: 1.3rem; margin: 0 auto 16px; }
+  .cartao-filosofia h3,
+  .cartao-academia h3,
+  .pilar h3 { font-size: 0.95rem; }
+  .cartao-academia p,
+  .pilar p { font-size: 0.9rem; }
+  .chamada-final { min-height: 320px; padding: 28px; }
+  .chamada-final h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0 0 12px; }
+  .chamada-final p { font-size: 0.95rem; }
+}
+
+.chamada-final h2 {
+  margin: 0 0 12px;
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 1.1;
+}
+
+.chamada-final p {
+  margin: 0 0 30px;
+  font-size: 1rem;
+  color: #ededed;
+}
+
+@media (max-width: 1120px) {
+  .grade-pilares,
+  .grade-academias {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .grade-cartoes-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .grade-pilares,
+  .grade-academias {
+    grid-template-columns: 1fr;
+  }
+}

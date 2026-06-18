@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!--
+    ============================================================
+    PÁGINA MESTRES E PROFESSORES - RAME SEISHIN JUTSU
+    ============================================================
+    Tabela com informações de mestres, professores e instrutores
+    organizados por grau (Hachidan, Rokudan, etc).
+    ============================================================
+  -->
+
+  <!-- Configurações básicas de codificação e viewport -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rame Seishin Jutsu | Mestres e Professores</title>
+
+  <!-- Pré-conexão para melhor performance ao carregar fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Fonte "Inter" - pesos: 400, 500, 600, 700 -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Estilos CSS para página de mestres -->
+  <link rel="stylesheet" href="../css/mestres.css" />
+</head>
+<body>
+  <!-- ============================================================
+       CABEÇALHO DO SITE (HEADER)
+       Contém marca (logo) e menu de navegação
+       ============================================================ -->
+  <header class="topo-site">
+    <div class="conteiner topo-conteudo">
+      <!-- Marca/Logo do site -->
+      <a class="marca" href="index.html" title="Voltar para página inicial">
+        <span class="marca-selo"><img src="../imagens/foto-rame-limpa.png" alt="Logo Rame Seishin Jutsu" /></span>
+        <span class="marca-texto">
+          <span class="marca-titulo">Rame Seishin Jutsu</span>
+          <span class="marca-subtitulo">Arte Marcial Tradicional</span>
+        </span>
+      </a>
+
+      <!-- Menu de navegação principal -->
+      <nav class="menu-principal">
+        <a href="index.html">Início</a>
+        <a href="historia.html">História</a>
+        <a href="sobre-o-rame.html">Sobre o Rame</a>
+        <a class="ativo" href="mestres.html">Mestres</a>
+        <a href="fundamentos.html">Fundamentos</a>
+        <a href="contato.html">Contato</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO INTERNO VERMELHO
+       Seção de apresentação da página
+       ============================================================ -->
+  <section class="hero-interno-vermelho">
+    <div class="conteiner">
+      <h1>Mestres e Professores</h1>
+      <p>Organização de mestres, instrutores e educadores do Rame Seishin Jutsu</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SEÇÃO PRINCIPAL - TABELA DE MESTRES
+       Exibe hierarquia e nomes dos profissionais
+       ============================================================ -->
+  <main class="secao secao-clara">
+    <div class="conteiner">
+      <!-- Título da tabela -->
+      <h2 class="titulo-tabela">RAME - Mestres e Professores</h2>
+
+      <section class="painel-mestres">
+        <img src="../imagens/foto4.png" alt="Retrato de mestre do Rame Seishin Jutsu" />
+        <div class="painel-mestres-texto">
+          <span>Hierarquia e tradição</span>
+          <h3>Conhecimento transmitido de mestre para aluno</h3>
+          <p>
+            A lista abaixo organiza os mestres, professores e instrutores que preservam
+            a técnica, a disciplina e os valores do Rame Seishin Jutsu.
+          </p>
+        </div>
+      </section>
+      
+      <!-- Tabela responsiva -->
+      <div class="tabela-responsiva">
+        <table class="tabela-mestres" id="tabelaMestres">
+          <!-- Cabeçalho da tabela -->
+          <thead>
+            <tr>
+              <th>Grau</th>
+              <th>Nome Completo</th>
+              <th>Posição</th>
+            </tr>
+          </thead>
+
+          <!-- Corpo da tabela (será preenchido dinamicamente) -->
+          <tbody>
+            <!-- Exemplo de linha - será substituído por dados do backend -->
+            <tr>
+              <td class="grau">HACHIDAN</td>
+              <td class="nome">José Higino Alves Nunes</td>
+              <td class="posicao">Mestre do Estilo</td>
+            </tr>
+            <tr>
+              <td class="grau">HACHIDAN</td>
+              <td class="nome">Elso Jorge de Nascimento</td>
+              <td class="posicao">In Memoriam</td>
+            </tr>
+            <tr>
+              <td class="grau">ROKUDAN</td>
+              <td class="nome">Francisco Soares dos Anjos Filho</td>
+              <td class="posicao">Presidente</td>
+            </tr>
+            <tr>
+              <td class="grau">GOKDAN</td>
+              <td class="nome">Marcelo Antonio da Lima</td>
+              <td class="posicao">Diretor Técnico</td>
+            </tr>
+            <tr>
+              <td class="grau">YONDAN</td>
+              <td class="nome">Samuel Rocha de Araujo</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">YONDAN</td>
+              <td class="nome">Klamilson Jorge de Nascimento</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">YONDAN</td>
+              <td class="nome">Nilson José Bispo de Souza</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">YONDAN</td>
+              <td class="nome">Sebastião Vicente da Silva</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SANBAN</td>
+              <td class="nome">Kleber Jorge do Nascimento</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SANBAN</td>
+              <td class="nome">Edmundo José Portella</td>
+              <td class="posicao">Conselheiro</td>
+            </tr>
+            <tr>
+              <td class="grau">SANBAN</td>
+              <td class="nome">Waldemar Ignácio Martins de Oliveira</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SANBAN</td>
+              <td class="nome">Pedro Paulo da Costa</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SANBAN</td>
+              <td class="nome">Luiz Eduardo Pinheiro da Costa</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Horácio de Souza Correa</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Willian Paulo Maurício</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Alexandre Vasconcellos Fatude</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Marcos Paulo de Oliveira</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Jader Machado Junior</td>
+              <td class="posicao">Diretor de Patrimônio</td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Willian dos Santos Pereira</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Gilberg Pereira da Silva</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Roque Escoffer Gomes da Silva</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Gilson Antonio da Silva Júnior</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">NIDAN</td>
+              <td class="nome">Edilson Antonio da Silva</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Luiz Claudio Pinto Santos</td>
+              <td class="posicao">1º Secretário</td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Alan Luiz da Silva</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Marcelo Vasconcellos Fatude</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">João Marcos de Oliveira Vianna</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Santiago Vieira Marinho</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Raimundo Nonato Miranda de Carvalho</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Paulo Cesar Taineira de Oliveira</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Luiz Henrique Silva Teixeira</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Antonio Felipe S A Reis do Sena</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Fabríci do Couto de Araujo</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Sandro Soares Barbosa</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Carlos Eduardo de Oliveira</td>
+              <td class="posicao"></td>
+            </tr>
+            <tr>
+              <td class="grau">SHODAN</td>
+              <td class="nome">Wesley Barbosa Chaves</td>
+              <td class="posicao">Conselheiro</td>
+            </tr>
+            <tr>
+              <td class="grau">Dr.</td>
+              <td class="nome">Carlos Antonio F. do Couto</td>
+              <td class="posicao">Depto. Jurídico</td>
+            </tr>
+            <tr>
+              <td class="grau">Srta.</td>
+              <td class="nome">Ronaldeide Soares dos Anjos</td>
+              <td class="posicao">Tesoureira</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Informação sobre atualização -->
+      <div class="nota-tabela">
+        <p>Tabela atualizada conforme informações oficiais do RAME Seishin Jutsu. Para atualizações ou correções, entre em contato através da página de contato.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       RODAPÉ DO SITE
+       Contém informações de contato, links rápidos e copyright
+       ============================================================ -->
+  <footer class="rodape">
+    <div class="conteiner grade-rodape">
+      <!-- Coluna 1: Descrição da organização -->
+      <section>
+        <h3>Rame Seishin Jutsu</h3>
+        <p>
+          Arte marcial tradicional japonesa que busca a harmonia entre corpo, mente e espírito
+          através do treinamento disciplinado e da filosofia samurai.
+        </p>
+      </section>
+
+      <!-- Coluna 2: Links de navegação rápida -->
+      <section>
+        <h3>Links Rápidos</h3>
+        <ul class="lista-rodape">
+          <li><a href="index.html">Início</a></li>
+          <li><a href="historia.html">História</a></li>
+          <li><a href="sobre-o-rame.html">Sobre o Rame</a></li>
+          <li><a href="mestres.html">Mestres</a></li>
+          <li><a href="fundamentos.html">Fundamentos</a></li>
+        </ul>
+      </section>
+
+      <!-- Coluna 3: Informações de contato -->
+      <section>
+        <h3>Contato</h3>
+        <p>(11) 99999-9999</p>
+        <p>contato@rameseishinjutsu.com</p>
+        <p>São Paulo - SP</p>
+      </section>
+    </div>
+
+    <!-- Linha de copyright -->
+    <div class="conteiner linha-final-rodape">
+      © 2026 Rame Seishin Jutsu. Todos os direitos reservados.
+    </div>
+  </footer>
+
+  <!-- Script para integração com backend -->
+  <script src="../js/api.js"></script>
+  <script src="../js/mestres.js"></script>
+</body>
+</html>

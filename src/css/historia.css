@@ -1,0 +1,186 @@
+/** CSS HISTÓRIA - Layouts editoriais e kanji */
+@import url("base.css");
+
+.hero-interno-preto {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.16) 100%),
+    url("../imagens/foto1.png") center top / cover no-repeat,
+    var(--cor-preta);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
+}
+
+/* Grades e layouts */
+.grade-editorial-2 {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 54px;
+  align-items: center;
+}
+
+/* Quadros com fundo escuro */
+.quadro-escuro {
+  background: var(--cor-preta-card);
+  border-radius: var(--raio-grande);
+  min-height: 280px;
+  padding: 28px;
+  color: #9d9d9d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.kanji-grande {
+  font-size: clamp(4rem, 7vw, 6rem);
+  line-height: 1;
+  color: #8d8d8d;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.kanji-legenda {
+  font-size: 1rem;
+  color: #9b9b9b;
+  line-height: 1.6;
+}
+
+.galeria-historia {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.galeria-historia figure {
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--raio-grande);
+  background: var(--cor-preta-card);
+  color: var(--cor-branca);
+}
+
+.galeria-historia img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.galeria-historia figcaption {
+  padding: 18px 20px 20px;
+  color: #dedede;
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+/* Cartão brasão */
+.cartao-brasao {
+  background: var(--cor-preta-card);
+  color: var(--cor-branca);
+  border-radius: var(--raio-grande);
+  padding: 42px 34px;
+  text-align: center;
+}
+
+.brasao-logo {
+  width: 136px;
+  height: 136px;
+  margin: 0 auto 28px;
+  border-radius: 999px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.32));
+}
+
+.cartao-brasao p {
+  margin: 0;
+  line-height: 1.85;
+  color: #ececec;
+  font-size: 0.98rem;
+}
+
+/* Grade samurai */
+.grade-samurai {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.imagem-samurai {
+  min-height: 620px;
+  border-radius: var(--raio-grande);
+  background: url("../imagens/foto4.png") center 24% / cover no-repeat, var(--cor-preta-card);
+}
+
+.texto-claro p {
+  margin: 0 0 22px;
+  color: #d7d7d7;
+  line-height: 1.9;
+  font-size: 0.98rem;
+}
+
+/* Bushidō */
+.cartao-bushido {
+  margin-top: 34px;
+  background: var(--cor-vermelha-vinho);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--raio-grande);
+  padding: 30px 20px;
+}
+
+.cartao-bushido h3 {
+  text-align: center;
+  margin: 0 0 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--cor-branca);
+}
+
+.grade-bushido {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  text-align: center;
+}
+
+.item-bushido strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 2.8rem;
+  font-weight: 500;
+  color: var(--cor-vermelha);
+}
+
+.item-bushido span {
+  display: block;
+  color: #dddddd;
+  font-size: 0.9rem;
+}
+
+.espaco-topo-pequeno { padding-top: 24px; }
+.texto-com-respiro { margin-top: 34px; }
+
+/* Responsivo */
+@media (max-width: 1120px) {
+  .grade-bushido { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .galeria-historia { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quadro-escuro { min-height: 240px; }
+}
+
+@media (max-width: 900px) {
+  .grade-editorial-2,
+  .grade-samurai { grid-template-columns: 1fr; }
+  .galeria-historia { grid-template-columns: 1fr; }
+  .imagem-samurai { min-height: 360px; }
+  .grade-bushido { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cartao-bushido { padding: 24px 16px; }
+  .kanji-grande { font-size: clamp(3rem, 5vw, 4.5rem); }
+}
+
+@media (max-width: 700px) {
+  .grade-bushido { grid-template-columns: 1fr; gap: 16px; }
+  .cartao-brasao { padding: 28px 20px; }
+  .brasao-logo { width: 112px; height: 112px; }
+  .imagem-samurai { min-height: 280px; }
+  .item-bushido strong { font-size: 2rem; }
+  .grade-editorial-2 { gap: 32px; }
+}

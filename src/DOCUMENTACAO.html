@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentação Frontend - Rame Seishin Jutsu</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: "Segoe UI", Arial, sans-serif; 
+      line-height: 1.6; 
+      color: #333; 
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { color: #ff000f; font-size: 2.5rem; margin-bottom: 10px; border-bottom: 3px solid #ff000f; padding-bottom: 10px; }
+    h2 { color: #050505; font-size: 1.8rem; margin-top: 40px; margin-bottom: 15px; border-left: 4px solid #ff000f; padding-left: 15px; }
+    h3 { color: #1d1d1d; font-size: 1.3rem; margin-top: 25px; margin-bottom: 10px; }
+    h4 { color: #5e6470; font-size: 1.1rem; margin-top: 15px; margin-bottom: 10px; }
+    p { margin-bottom: 12px; text-align: justify; }
+    ul, ol { margin: 15px 0 15px 30px; }
+    li { margin-bottom: 8px; }
+    code { 
+      background: #f0f0f0; 
+      padding: 2px 6px; 
+      border-radius: 3px; 
+      font-family: 'Courier New', monospace;
+      color: #c7254e;
+      font-size: 0.9em;
+    }
+    pre { 
+      background: #1d1d1d; 
+      color: #aaa; 
+      padding: 15px; 
+      border-radius: 5px; 
+      overflow-x: auto;
+      margin: 15px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      line-height: 1.4;
+    }
+    pre code { background: none; color: inherit; padding: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #ff000f; color: white; font-weight: 600; }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .highlight { background: #fffacd; padding: 2px 4px; }
+    .badge { 
+      display: inline-block; 
+      background: #ff000f; 
+      color: white; 
+      padding: 3px 8px; 
+      border-radius: 3px; 
+      font-size: 0.85em; 
+      margin-right: 5px;
+    }
+    .status-ok { background: #28a745; }
+    .status-todo { background: #ffc107; }
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #2196F3;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 3px;
+    }
+    .warning-box {
+      background: #fff3e0;
+      border-left: 4px solid #ff9800;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 3px;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 15px 0; }
+    .file-tree { background: #f0f0f0; padding: 15px; border-radius: 5px; font-family: monospace; margin: 15px 0; }
+    .topo {
+      background: linear-gradient(135deg, #050505, #1d1d1d);
+      color: white;
+      padding: 30px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+    }
+    .topo h1 { color: #ff000f; border: none; }
+    .topo p { color: #ccc; margin: 5px 0; }
+    @media print {
+      body { padding: 0; }
+      .container { box-shadow: none; }
+      h2 { page-break-after: avoid; }
+      h3 { page-break-after: avoid; }
+      pre { page-break-inside: avoid; }
+      table { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topo">
+      <h1>📚 DOCUMENTAÇÃO FRONTEND</h1>
+      <h3 style="color: #ff000f; margin-top: 0;">Rame Seishin Jutsu</h3>
+      <p><strong>Data:</strong> 10 de maio de 2026</p>
+      <p><strong>Versão:</strong> 1.0 Otimizada</p>
+      <p><strong>Stack:</strong> HTML5 • CSS3 • JavaScript (Vanilla)</p>
+    </div>
+
+    <h2>📋 Sumário Executivo</h2>
+    <p>Este documento contém <strong>toda a documentação técnica do frontend</strong> necessária para integração com o backend. Inclui estrutura de páginas, endpoints esperados, validações e fluxos de autenticação.</p>
+
+    <h2>🏗️ Estrutura do Projeto</h2>
+    <div class="file-tree">
+site-organizado/<br>
+├── paginas/ (7 páginas HTML)<br>
+├── css/ (8 arquivos de estilo)<br>
+├── js/ (7 módulos JavaScript)<br>
+└── imagens/ (assets externos)
+    </div>
+
+    <h2>🔌 Configuração da API</h2>
+    <h3>Base URL (EDITAR conforme necessário)</h3>
+    <pre><code>// Em: js/api.js
+CONFIG_API = {
+  urlBase: 'http://localhost:3000/api',  // ← EDITAR AQUI
+  timeoutMs: 10000,
+  modoDebug: true
+}</code></pre>
+    <div class="warning-box">
+      <strong>⚠️ IMPORTANTE:</strong> Toda comunicação frontend-backend passa por <code>js/api.js</code>. Certifique-se de configurar a URL corretamente antes de integrar.
+    </div>
+
+    <h2>📄 Páginas HTML - Detalhamento</h2>
+
+    <h3>1. INDEX.HTML (Homepage)</h3>
+    <p><strong>Arquivo:</strong> <code>paginas/index.html</code> | <strong>CSS:</strong> <code>css/index.css</code> | <strong>JS:</strong> <code>js/index.js</code></p>
+    <h4>Seções:</h4>
+    <ul>
+      <li><strong>Hero:</strong> Imagem de fundo, título, botões</li>
+      <li><strong>Filosofia:</strong> 2 cartões (escuro/vermelho)</li>
+      <li><strong>Pilares:</strong> Grade 4 colunas</li>
+      <li><strong>Academias:</strong> <span class="badge status-ok">DINÂMICO</span> Carregado via API</li>
+      <li><strong>CTA:</strong> Chamada para ação final</li>
+    </ul>
+    <h4>Endpoint Chamado:</h4>
+    <pre><code>GET /api/academias
+Resposta: [
+  { id, nome, descricao, endereco, telefone },
+  ...
+]</code></pre>
+
+    <h3>2. HISTORIA.HTML (História)</h3>
+    <p><strong>Arquivo:</strong> <code>paginas/historia.html</code> | <strong>CSS:</strong> <code>css/historia.css</code> | <strong>JS:</strong> <code>js/historia.js</code></p>
+    <h4>Características:</h4>
+    <ul>
+      <li>Conteúdo editorial com Kanji visual</li>
+      <li>Brasão Dai Nippon Butoku Kai</li>
+      <li>Samurai + Bushidō 8 princípios</li>
+      <li>Animações ao scroll (IntersectionObserver)</li>
+    </ul>
+
+    <h3>3. MESTRES.HTML (Tabela de Mestres)</h3>
+    <p><strong>Arquivo:</strong> <code>paginas/mestres.html</code> | <strong>CSS:</strong> <code>css/mestres.css</code> | <strong>JS:</strong> <code>js/mestres.js</code></p>
+    <h4>Funcionalidades:</h4>
+    <ul>
+      <li>✅ Busca em tempo real</li>
+      <li>✅ Ordenação por coluna</li>
+      <li>✅ Destaque de graus em vermelho</li>
+    </ul>
+    <h4>Endpoint:</h4>
+    <pre><code>GET /api/mestres
+Resposta: [
+  {
+    id, grau, nome, posicao
+  },
+  ...
+]
+
+Graus válidos: HACHIDAN, ROKUDAN, GOKDAN, YONDAN, 
+SANBAN, NIDAN, SHODAN, Dr., Srta.</code></pre>
+
+    <h3>4. CONTATO.HTML (Formulário)</h3>
+    <p><strong>Arquivo:</strong> <code>paginas/contato.html</code> | <strong>CSS:</strong> <code>css/contato.css</code> | <strong>JS:</strong> <code>js/contato.js</code></p>
+    <h4>Campos do Formulário:</h4>
+    <table>
+      <tr>
+        <th>Campo</th>
+        <th>Tipo</th>
+        <th>Validação</th>
+      </tr>
+      <tr>
+        <td>Nome</td>
+        <td>text</td>
+        <td>Min 3 chars, máx 100</td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td>email</td>
+        <td>Formato válido</td>
+      </tr>
+      <tr>
+        <td>Telefone</td>
+        <td>tel</td>
+        <td>Caracteres válidos</td>
+      </tr>
+      <tr>
+        <td>Academia</td>
+        <td>select</td>
+        <td>Obrigatório</td>
+      </tr>
+      <tr>
+        <td>Mensagem</td>
+        <td>textarea</td>
+        <td>Min 10, máx 2000 chars</td>
+      </tr>
+    </table>
+    <h4>Endpoint:</h4>
+    <pre><code>POST /api/mensagens/enviar
+Body: {
+  nome: string,
+  email: string,
+  telefone: string,
+  academia: string,
+  mensagem: string
+}
+Response: { sucesso: boolean, mensagem: string }</code></pre>
+
+    <h3>5. LOGIN.HTML (Autenticação)</h3>
+    <p><strong>Arquivo:</strong> <code>paginas/login.html</code> | <strong>CSS:</strong> <code>css/login.css</code> | <strong>JS:</strong> <code>js/login.js</code></p>
+    <h4>Fluxo de Autenticação:</h4>
+    <ol>
+      <li>Usuário acessa `/paginas/login.html`</li>
+      <li>Sistema verifica localStorage</li>
+      <li>Se autenticado, redireciona para homepage</li>
+      <li>Caso contrário, mostra formulário</li>
+      <li>Após login, salva usuário em localStorage</li>
+    </ol>
+    <h4>Endpoint:</h4>
+    <pre><code>POST /api/auth/login
+Body: {
+  usuario: string,
+  senha: string
+}
+Response (sucesso): {
+  sucesso: true,
+  usuario: { id, nome, email, tipo },
+  token?: string
+}
+Response (erro): {
+  sucesso: false,
+  erro: "Mensagem de erro"
+}</code></pre>
+
+    <h2>🎨 Sistema de Cores</h2>
+    <table>
+      <tr>
+        <th>Variável CSS</th>
+        <th>Valor</th>
+        <th>Uso</th>
+      </tr>
+      <tr>
+        <td><code>--cor-preta</code></td>
+        <td>#050505</td>
+        <td>Preto puro (texto, fundo escuro)</td>
+      </tr>
+      <tr>
+        <td><code>--cor-vermelha</code></td>
+        <td>#ff000f</td>
+        <td>Vermelho (destaque, botões primários)</td>
+      </tr>
+      <tr>
+        <td><code>--cor-branca</code></td>
+        <td>#ffffff</td>
+        <td>Branco (fundos claros, texto)</td>
+      </tr>
+      <tr>
+        <td><code>--cor-cinza-texto</code></td>
+        <td>#5e6470</td>
+        <td>Cinza (texto secundário)</td>
+      </tr>
+    </table>
+
+    <h2>📱 Responsividade</h2>
+    <h4>Breakpoints CSS:</h4>
+    <pre><code>@media (max-width: 1120px) { /* Tablets grandes */ }
+@media (max-width: 900px) { /* Tablets */ }
+@media (max-width: 700px) { /* Mobile grande */ }
+@media (max-width: 480px) { /* Mobile pequeno */ }</code></pre>
+    <div class="info-box">
+      <strong>✅ Mobile-First:</strong> Design totalmente responsivo com layouts fluidos. Container usa <code>min(1080px, 92vw)</code>.
+    </div>
+
+    <h2>📦 Endpoints Esperados no Backend</h2>
+    <h3>1. GET /api/academias</h3>
+    <pre><code>Response: [{
+  id: number,
+  nome: string,
+  descricao: string,
+  endereco?: string,
+  telefone?: string
+}]</code></pre>
+
+    <h3>2. GET /api/mestres</h3>
+    <pre><code>Response: [{
+  id: number,
+  grau: string,
+  nome: string,
+  posicao: string
+}]</code></pre>
+
+    <h3>3. POST /api/mensagens/enviar</h3>
+    <pre><code>Body: {
+  nome: string,
+  email: string,
+  telefone: string,
+  academia: string,
+  mensagem: string
+}
+Response: {
+  sucesso: boolean,
+  mensagem: string,
+  erro?: string
+}</code></pre>
+
+    <h3>4. POST /api/auth/login</h3>
+    <pre><code>Body: {
+  usuario: string,
+  senha: string
+}
+Response: {
+  sucesso: boolean,
+  usuario?: { id, nome, email, tipo },
+  token?: string,
+  erro?: string
+}</code></pre>
+
+    <h2>🚀 Como Integrar com o Backend</h2>
+    <h3>Passo 1: Configurar URL da API</h3>
+    <pre><code>// Em: js/api.js, linha 1
+CONFIG_API.urlBase = 'https://seu-backend.com/api'</code></pre>
+
+    <h3>Passo 2: Implementar Endpoints</h3>
+    <ul>
+      <li><code>GET /api/academias</code> - Retorna lista de academias</li>
+      <li><code>GET /api/mestres</code> - Retorna tabela de mestres</li>
+      <li><code>POST /api/mensagens/enviar</code> - Recebe contato</li>
+      <li><code>POST /api/auth/login</code> - Autentica usuário</li>
+    </ul>
+
+    <h3>Passo 3: Configurar CORS</h3>
+    <pre><code>Access-Control-Allow-Origin: https://seu-frontend.com
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Allow-Credentials: true</code></pre>
+
+    <h3>Passo 4: Testar Cada Página</h3>
+    <ol>
+      <li>✅ Homepage → Academias carregam?</li>
+      <li>✅ Mestres → Tabela mostra dados?</li>
+      <li>✅ Contato → Validação + envio funciona?</li>
+      <li>✅ Login → Autenticação persiste?</li>
+    </ol>
+
+    <h2>🔐 Segurança</h2>
+    <div class="warning-box">
+      <strong>⚠️ Validações Frontend:</strong> São apenas para UX. Sempre validar no backend também!
+    </div>
+    <h4>Recomendações:</h4>
+    <ul>
+      <li>✅ HTTPS obrigatório em produção</li>
+      <li>✅ CORS configurado para domínio específico</li>
+      <li>✅ Senhas NUNCA em localStorage (usar httpOnly cookies)</li>
+      <li>✅ Tokens JWT com expiração de 24h</li>
+      <li>✅ Rate limiting em endpoints críticos</li>
+      <li>✅ Validar ALL inputs no backend</li>
+    </ul>
+
+    <h2>🐛 Debugging</h2>
+    <h4>Console do Navegador (F12):</h4>
+    <ul>
+      <li>Ativa <code>CONFIG_API.modoDebug = true</code> para logs</li>
+      <li>Veja requisições na aba <strong>Network</strong></li>
+      <li>Verifique localStorage na aba <strong>Application</strong></li>
+    </ul>
+    <h4>Checklist:</h4>
+    <ul>
+      <li>[ ] URL da API está correta?</li>
+      <li>[ ] CORS habilitado?</li>
+      <li>[ ] Response JSON é válido?</li>
+      <li>[ ] Validações funcionam?</li>
+      <li>[ ] Login persiste?</li>
+      <li>[ ] Redireciona após ações?</li>
+    </ul>
+
+    <h2>📊 Resumo dos Arquivos</h2>
+    <table>
+      <tr>
+        <th>Arquivo</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>index.html</td>
+        <td>HTML</td>
+        <td>Homepage com academias dinâmicas</td>
+      </tr>
+      <tr>
+        <td>mestres.html</td>
+        <td>HTML</td>
+        <td>Tabela de mestres com busca/filtro</td>
+      </tr>
+      <tr>
+        <td>contato.html</td>
+        <td>HTML</td>
+        <td>Formulário de contato validado</td>
+      </tr>
+      <tr>
+        <td>login.html</td>
+        <td>HTML</td>
+        <td>Página de autenticação</td>
+      </tr>
+      <tr>
+        <td>api.js</td>
+        <td>JS</td>
+        <td>Camada centralizida de comunicação API</td>
+      </tr>
+      <tr>
+        <td>*.js</td>
+        <td>JS</td>
+        <td>Lógica específica de cada página</td>
+      </tr>
+      <tr>
+        <td>base.css</td>
+        <td>CSS</td>
+        <td>Estilos globais compartilhados</td>
+      </tr>
+    </table>
+
+    <h2>✅ Checklist de Integração</h2>
+    <ul>
+      <li>[ ] Clonar/descarregar repositório frontend</li>
+      <li>[ ] Configurar URL da API em js/api.js</li>
+      <li>[ ] Implementar todos os endpoints no backend</li>
+      <li>[ ] Testar CORS (GET e POST)</li>
+      <li>[ ] Testar cada página no navegador</li>
+      <li>[ ] Validar console.log para erros</li>
+      <li>[ ] Testar login e localStorage</li>
+      <li>[ ] Testar em dispositivos móveis</li>
+      <li>[ ] Implementar HTTPS em produção</li>
+      <li>[ ] Configurar rate limiting no backend</li>
+    </ul>
+
+    <h2>📞 Informações</h2>
+    <p><strong>Documentação Gerada:</strong> 10 de maio de 2026</p>
+    <p><strong>Versão Frontend:</strong> 1.0 Otimizada</p>
+    <p><strong>Para converter para PDF:</strong> Pressione <strong>Ctrl+P</strong> ou <strong>Cmd+P</strong> (Mac), depois clique em "Salvar como PDF".</p>
+
+    <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ff000f; text-align: center; color: #666;">
+      <p><strong>Boa sorte na integração! 🚀</strong></p>
+    </div>
+  </div>
+</body>
+</html>

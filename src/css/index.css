@@ -1,0 +1,571 @@
+/** CSS HOME - Hero, filosofia, pilares, academias */
+@import url("base.css");
+
+/* Hero com gradiente e fundo */
+.hero {
+  min-height: 700px;
+  color: var(--cor-branca);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.16) 36%, rgba(0, 0, 0, 0.02) 68%, rgba(0, 0, 0, 0.04) 100%),
+    url("../imagens/foto2.png") center top / cover no-repeat,
+    var(--cor-preta);
+}
+
+.hero-conteudo {
+  display: flex;
+  align-items: center;
+  min-height: 700px;
+}
+
+.hero-texto {
+  max-width: 610px;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.85);
+}
+
+.etiqueta-vermelha {
+  display: inline-block;
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hero h1 {
+  font-size: clamp(3.8rem, 7vw, 5.4rem);
+  line-height: 1.03;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.hero p {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #ebebeb;
+  max-width: 640px;
+  margin: 26px 0 32px;
+}
+
+.grupo-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Cartões de filosofia em grade 2 colunas */
+.grade-cartoes-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+}
+
+.cartao-filosofia {
+  border-radius: var(--raio-grande);
+  padding: 34px;
+  min-height: 276px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cartao-filosofia:hover {
+  transform: translateY(-4px);
+}
+
+.cartao-filosofia.escuro {
+  background: var(--cor-preta-card);
+  color: var(--cor-branca);
+}
+
+.cartao-filosofia.vermelho {
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+}
+
+.icone-quadrado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.icone-quadrado.claro {
+  background: var(--cor-branca);
+  color: var(--cor-vermelha);
+}
+
+.cartao-filosofia h3 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cartao-filosofia p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.9;
+}
+
+/* Pilares do Rame em grade 4 colunas */
+.grade-pilares {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.pilar {
+  text-align: center;
+  padding: 28px 24px;
+  transition: transform 0.3s ease;
+}
+
+.pilar:hover {
+  transform: translateY(-8px);
+}
+
+.pilar .icone-circulo {
+  font-size: 3.2rem;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.pilar h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--cor-branca);
+}
+
+.pilar p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #b5b5b5;
+  line-height: 1.7;
+}
+
+/* Academias em grade 3 colunas */
+.grade-academias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.grade-registros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.cartao-registro {
+  overflow: hidden;
+  background: var(--cor-preta-card);
+  border-radius: var(--raio-grande);
+  color: var(--cor-branca);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cartao-registro:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(255, 0, 15, 0.18);
+}
+
+.cartao-registro img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.cartao-registro h3 {
+  margin: 24px 26px 12px;
+  font-size: 1.12rem;
+  font-weight: 700;
+}
+
+.cartao-registro p {
+  margin: 0 26px 28px;
+  color: #d5d5d5;
+  line-height: 1.65;
+  font-size: 0.96rem;
+}
+
+.cartao-academia {
+  background: var(--cor-preta-card);
+  border-radius: var(--raio-grande);
+  padding: 32px;
+  color: var(--cor-branca);
+  transition: all 0.3s ease;
+}
+
+.cartao-academia-imagem {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 14px;
+  margin-bottom: 22px;
+}
+
+.cartao-academia:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(255, 0, 15, 0.2);
+}
+
+.cartao-academia h3 {
+  margin: 0 0 14px;
+  font-size: 1.18rem;
+  font-weight: 600;
+}
+
+.cartao-academia p {
+  margin: 0 0 20px;
+  color: #b5b5b5;
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.link-saiba-mais {
+  display: inline-block;
+  color: var(--cor-vermelha);
+  font-weight: 600;
+  font-size: 0.98rem;
+  transition: all 0.3s ease;
+}
+
+.link-saiba-mais:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+/* CTA final */
+.chamada-final {
+  background: linear-gradient(180deg, rgba(255, 0, 15, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+  padding: 64px 0;
+  text-align: center;
+  border-top: 1px solid rgba(255, 0, 15, 0.2);
+  border-bottom: 1px solid rgba(255, 0, 15, 0.2);
+}
+
+.chamada-final h2 {
+  margin: 0 0 16px;
+  font-size: clamp(2.1rem, 4vw, 3.2rem);
+  font-weight: 600;
+}
+
+.chamada-final p {
+  margin: 0 0 28px;
+  font-size: 1.05rem;
+  color: var(--cor-cinza-texto);
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.65;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .grade-pilares {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grade-academias {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grade-registros {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 500px;
+  }
+
+  .hero-conteudo {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 700px) {
+  .grade-cartoes-2,
+  .grade-pilares,
+  .grade-academias,
+  .grade-registros {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-texto {
+    max-width: 100%;
+  }
+
+  .hero {
+    background-position: center, center, 52% top;
+  }
+
+  .grupo-botoes {
+    flex-direction: column;
+  }
+
+  .botao {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    min-height: 400px;
+  }
+
+  .hero-conteudo {
+    min-height: 400px;
+  }
+
+  .etiqueta-vermelha {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .cartao-academia,
+  .cartao-filosofia {
+    padding: 24px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVIDADE
+   ============================================================ */
+
+/**
+ * Breakpoint médio para tablets
+ */
+@media (max-width: 1200px) {
+  .hero {
+    min-height: 600px;
+  }
+
+  .hero-conteudo {
+    min-height: 600px;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 6vw, 4.8rem);
+  }
+}
+
+/**
+ * Breakpoint para tablets pequenos
+ */
+@media (max-width: 900px) {
+  .grade-cartoes-2 {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .hero {
+    min-height: 500px;
+  }
+
+  .hero-conteudo {
+    min-height: 500px;
+  }
+
+  .grupo-botoes {
+    flex-direction: column;
+  }
+
+  .botao {
+    width: 100%;
+  }
+}
+
+/**
+ * Breakpoint para mobile
+ */
+@media (max-width: 640px) {
+  .hero {
+    background-position: center, center, 50% top;
+  }
+
+  .hero-texto {
+    max-width: 100%;
+  }
+
+  .hero p {
+    max-width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .etiqueta-vermelha {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
+  .cartao-filosofia {
+    padding: 24px;
+    min-height: auto;
+  }
+
+  .icone-quadrado {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+}
+
+.icone-quadrado.claro {
+  background: var(--cor-branca);
+  color: var(--cor-vermelha);
+}
+
+.cartao-filosofia h3 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+}
+
+.cartao-filosofia p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.9;
+}
+
+/* ------------------------------
+   Bloco dos pilares
+   ------------------------------ */
+.grade-pilares {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+  text-align: center;
+}
+
+.pilar {
+  color: var(--cor-branca);
+}
+
+.icone-circulo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 22px;
+  border-radius: 999px;
+  background: var(--cor-vermelha);
+  color: var(--cor-branca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.pilar h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.pilar p {
+  margin: 0;
+  color: #b9b9b9;
+  line-height: 1.65;
+}
+
+/* ------------------------------
+   Bloco da seção academias
+   ------------------------------ */
+.grade-academias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.cartao-academia {
+  background: var(--cor-preta-card);
+  color: var(--cor-branca);
+  border-radius: var(--raio-grande);
+  padding: 30px 26px;
+}
+
+.cartao-academia h3 {
+  margin: 0 0 16px;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.cartao-academia p {
+  margin: 0 0 24px;
+  color: #d5d5d5;
+  line-height: 1.65;
+}
+
+.link-saiba-mais {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cor-branca);
+  font-weight: 600;
+}
+
+/* ------------------------------
+   Chamada final da home
+   ------------------------------ */
+.chamada-final {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  color: var(--cor-branca);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.18) 100%),
+    url("../imagens/foto1.png") center 36% / cover no-repeat,
+    var(--cor-preta);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
+}
+
+.chamada-final h2 {
+  margin: 0 0 12px;
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  line-height: 1.1;
+}
+
+.chamada-final p {
+  margin: 0 0 30px;
+  font-size: 1rem;
+  color: #ededed;
+}
+
+/* ------------------------------
+   Responsividade da home
+   ------------------------------ */
+@media (max-width: 1120px) {
+  .grade-pilares,
+  .grade-academias {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .grade-cartoes-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero,
+  .hero-conteudo {
+    min-height: 580px;
+  }
+
+  .hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .grade-pilares,
+  .grade-academias {
+    grid-template-columns: 1fr;
+  }
+}

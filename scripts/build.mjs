@@ -22,4 +22,6 @@ await Promise.all(
   )
 );
 
+await cp(join(origem, 'imagens', 'favicon.ico'), join(destino, 'favicon.ico'));
+
 console.log('Build estatico gerado em dist/');

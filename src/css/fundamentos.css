@@ -1,6 +1,4 @@
 /** CSS FUNDAMENTOS - Cartões e caminho de treino */
-@import url("base.css");
-
 .hero-interno-vermelho {
   min-height: 500px;
   display: flex;
@@ -8,7 +6,7 @@
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.18) 100%),
     url("../imagens/foto2.png") center 18% / cover no-repeat,
-    var(--cor-vermelha);
+    var(--cor-preta);
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
 }
 

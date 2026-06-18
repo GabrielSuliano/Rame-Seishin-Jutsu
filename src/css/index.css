@@ -1,6 +1,4 @@
 /** CSS HOME - Hero, filosofia, pilares, academias */
-@import url("base.css");
-
 /* Hero com gradiente e fundo */
 .hero {
   min-height: 700px;

@@ -269,7 +269,7 @@ a { color: inherit; text-decoration: none; }
  * Seção introdutória com fundo vermelho e gradiente
  */
 .hero-interno-vermelho {
-  background: linear-gradient(180deg, var(--cor-vermelha) 0%, var(--cor-vermelha-escura) 100%);
+  background: linear-gradient(180deg, #050505 0%, #080808 100%);
   color: var(--cor-branca);
   text-align: center;
   padding: 82px 0 78px;

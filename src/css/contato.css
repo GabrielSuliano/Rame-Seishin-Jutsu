@@ -1,5 +1,7 @@
 /** CSS CONTATO - Informações de contato */
-@import url("base.css");
+.hero-interno-vermelho {
+  background: linear-gradient(180deg, var(--cor-vermelha) 0%, var(--cor-vermelha-escura) 100%);
+}
 
 .contato-direto {
   display: grid;

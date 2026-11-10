@@ -18,5 +18,3 @@ services:
         sync: false
       - key: SUPABASE_CHAVE_SECRETA
         sync: false
-      - key: NOME_ADMIN
-        value: admin

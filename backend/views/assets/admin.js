@@ -1,12 +1,22 @@
 const formularioLogin = document.querySelector('#login');
+const telaLogin = document.querySelector('#tela-login');
+const estadoInicial = document.querySelector('#estado-inicial');
 const painel = document.querySelector('#painel');
 const aviso = document.querySelector('#aviso');
 const formularioEvento = document.querySelector('#formulario-evento');
 const listaEventos = document.querySelector('#lista-eventos');
 const listaFotosSite = document.querySelector('#lista-fotos-site');
+const listaAdministradores = document.querySelector('#lista-administradores');
+const formularioAdministrador = document.querySelector('#formulario-administrador');
+const formularioSenha = document.querySelector('#formulario-senha');
 const fotosAtuais = document.querySelector('#fotos-atuais');
 const selecaoFotos = document.querySelector('#selecao-fotos');
 const cancelarEdicao = document.querySelector('#cancelar-edicao');
+const botaoSair = document.querySelector('#sair');
+const campoSenhaLogin = document.querySelector('#senha-login');
+const botaoVerSenha = document.querySelector('#ver-senha');
+const linksSecoes = [...document.querySelectorAll('[data-secao]')];
+const formatoData = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium', timeZone: 'America/Sao_Paulo' });
 let eventoEmEdicao = null;
 
 async function solicitar(caminho, metodo = 'GET', dados) {
@@ -27,8 +37,16 @@ async function solicitar(caminho, metodo = 'GET', dados) {
   return resultado;
 }
 
-function informar(mensagem) {
+function informar(mensagem, tipo = 'info') {
   aviso.textContent = mensagem;
+  aviso.dataset.tipo = tipo;
+}
+
+function criarElemento(tipo, classe, texto) {
+  const elemento = document.createElement(tipo);
+  if (classe) elemento.className = classe;
+  if (texto) elemento.textContent = texto;
+  return elemento;
 }
 
 function acaoAoEnviar(formulario, executar) {
@@ -41,24 +59,22 @@ function acaoAoEnviar(formulario, executar) {
     try {
       await executar(new FormData(formulario));
     } catch (erro) {
-      informar(erro.message);
+      informar(erro.message, 'erro');
     } finally {
       botao.disabled = false;
     }
   });
 }
 
-function criarBotao(texto, acao) {
-  const botao = document.createElement('button');
+function criarBotao(texto, acao, classe = 'botao-neutro') {
+  const botao = criarElemento('button', 'botao-admin ' + classe, texto);
   botao.type = 'button';
-  botao.className = 'botao botao-secundario';
-  botao.textContent = texto;
   botao.addEventListener('click', async () => {
     botao.disabled = true;
     try {
       await acao();
     } catch (erro) {
-      informar(erro.message);
+      informar(erro.message, 'erro');
     } finally {
       botao.disabled = false;
     }
@@ -74,10 +90,21 @@ function criarImagem(url, textoAlternativo) {
   return imagem;
 }
 
+function exibirSecao() {
+  const linkAtivo = linksSecoes.find((link) => !link.hidden && link.hash === location.hash) || linksSecoes[0];
+  for (const link of linksSecoes) {
+    const selecionado = link === linkAtivo;
+    if (selecionado) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+    document.getElementById(link.dataset.secao).hidden = !selecionado;
+  }
+}
+
 function encerrarEdicao() {
   eventoEmEdicao = null;
   formularioEvento.reset();
   document.querySelector('#titulo-formulario').textContent = 'Publicar evento';
+  document.querySelector('#salvar-evento').textContent = 'Salvar e publicar';
   fotosAtuais.hidden = true;
   selecaoFotos.replaceChildren();
   cancelarEdicao.hidden = true;
@@ -90,6 +117,7 @@ async function editarEvento(identificador) {
   formularioEvento.elements.titulo.value = evento.titulo;
   formularioEvento.elements.descricao.value = evento.descricao;
   document.querySelector('#titulo-formulario').textContent = 'Editar evento';
+  document.querySelector('#salvar-evento').textContent = 'Salvar alterações';
   cancelarEdicao.hidden = false;
   fotosAtuais.hidden = !evento.fotos.length;
   evento.fotos.forEach((url, posicao) => {
@@ -107,22 +135,29 @@ async function editarEvento(identificador) {
 async function carregarEventos() {
   const eventos = await solicitar('/eventos');
   listaEventos.replaceChildren();
-  if (!eventos.length) listaEventos.textContent = 'Nenhum evento publicado.';
+  document.querySelector('#total-eventos').textContent = eventos.length === 1 ? '1 evento' : eventos.length + ' eventos';
+  if (!eventos.length) {
+    listaEventos.append(criarElemento('p', 'vazio-admin', 'Seus eventos publicados aparecerão aqui.'));
+    return;
+  }
+
   for (const evento of eventos) {
-    const cartao = document.createElement('article');
-    cartao.className = 'cartao-evento';
-    const titulo = document.createElement('h3');
-    titulo.textContent = evento.titulo;
-    if (evento.capa) cartao.append(criarImagem(evento.capa, ''));
-    cartao.append(titulo, criarBotao('Editar', () => editarEvento(evento.id)), criarBotao('Excluir', async () => {
+    const linha = criarElemento('article', 'linha-evento-admin');
+    const corpo = document.createElement('div');
+    const data = criarElemento('time', 'data-admin', formatoData.format(new Date(evento.criado_em)));
+    data.dateTime = evento.criado_em;
+    const acoes = criarElemento('div', 'acoes-admin');
+    acoes.append(criarBotao('Editar', () => editarEvento(evento.id)), criarBotao('Excluir', async () => {
       if (!confirm('Excluir o evento "' + evento.titulo + '" e todas as suas fotos?')) return;
       const atual = await solicitar('/eventos/' + evento.id);
       await solicitar('/admin/eventos/' + evento.id, 'DELETE', { versao: atual.versao });
       if (eventoEmEdicao?.id === evento.id) encerrarEdicao();
-      informar('Evento excluído.');
       await carregarEventos();
-    }));
-    listaEventos.append(cartao);
+      informar('Evento excluído.', 'sucesso');
+    }, 'botao-perigo'));
+    corpo.append(criarElemento('h3', '', evento.titulo), data, acoes);
+    linha.append(evento.capa ? criarImagem(evento.capa, '') : criarElemento('span', 'capa-vazia-admin', 'RAME'), corpo);
+    listaEventos.append(linha);
   }
 }
 
@@ -135,54 +170,89 @@ async function carregarFotosSite() {
     foto3: 'Demonstração de técnica',
     foto4: 'Retrato de mestre'
   })) {
-    const formulario = document.createElement('form');
-    formulario.className = 'cartao-evento';
-    const titulo = document.createElement('h3');
-    titulo.textContent = rotulo;
+    const formulario = criarElemento('form', 'cartao-foto-admin');
+    const corpo = criarElemento('div', 'corpo-foto-admin');
+    const rotuloFoto = criarElemento('label', 'campo-admin envio-admin', 'Nova imagem');
     const campoFoto = document.createElement('input');
     campoFoto.type = 'file';
     campoFoto.name = 'foto';
     campoFoto.accept = 'image/jpeg,image/png,image/webp';
     campoFoto.required = true;
     campoFoto.setAttribute('aria-label', 'Selecionar nova foto para ' + rotulo);
-    const salvar = document.createElement('button');
+    rotuloFoto.append(campoFoto);
+    const acoes = criarElemento('div', 'acoes-admin');
+    const salvar = criarElemento('button', 'botao-admin botao-acao', 'Substituir');
     salvar.type = 'submit';
-    salvar.className = 'botao botao-primario';
-    salvar.textContent = 'Substituir';
-    formulario.append(criarImagem(fotos[identificador] || '/imagens/' + identificador + '.png', rotulo), titulo, campoFoto, salvar);
-    if (fotos[identificador]) formulario.append(criarBotao('Restaurar original', async () => {
+    acoes.append(salvar);
+    if (fotos[identificador]) acoes.append(criarBotao('Restaurar original', async () => {
       await solicitar('/admin/fotos-site/' + identificador, 'DELETE');
-      informar('Foto original restaurada.');
       await carregarFotosSite();
+      informar('Foto original restaurada.', 'sucesso');
     }));
+    corpo.append(criarElemento('span', 'marcador-admin', fotos[identificador] ? 'Personalizada' : 'Original'),
+      criarElemento('h3', '', rotulo), rotuloFoto, acoes);
+    formulario.append(criarImagem(fotos[identificador] || '/imagens/' + identificador + '.png', rotulo), corpo);
+
     acaoAoEnviar(formulario, async (dados) => {
+      if (campoFoto.files[0]?.size > 6 * 1024 * 1024) throw new Error('Escolha uma foto de até 6 MB.');
       await solicitar('/admin/fotos-site/' + identificador, 'PUT', dados);
-      informar('Foto substituída.');
       await carregarFotosSite();
+      informar('Foto substituída.', 'sucesso');
     });
     listaFotosSite.append(formulario);
   }
 }
 
+async function carregarAdministradores() {
+  const contas = await solicitar('/admin/administradores');
+  listaAdministradores.replaceChildren();
+  for (const conta of [{ nome: 'admin', principal: true }, ...contas]) {
+    const linha = document.createElement('li');
+    linha.append(criarElemento('strong', '', conta.nome),
+      criarElemento('span', 'marcador-admin', conta.principal ? 'Conta principal' : 'Administrador'));
+    listaAdministradores.append(linha);
+  }
+}
+
+function exibirSenha(visivel) {
+  campoSenhaLogin.type = visivel ? 'text' : 'password';
+  botaoVerSenha.textContent = visivel ? 'Ocultar' : 'Mostrar';
+  botaoVerSenha.setAttribute('aria-pressed', String(visivel));
+}
+
 function exibirLogin() {
+  estadoInicial.hidden = true;
   painel.hidden = true;
-  formularioLogin.hidden = false;
+  botaoSair.hidden = true;
+  telaLogin.hidden = false;
   formularioLogin.reset();
-  document.querySelector('#formulario-senha').reset();
+  formularioSenha.reset();
+  formularioAdministrador.reset();
+  exibirSenha(false);
   encerrarEdicao();
 }
 
-async function exibirPainel() {
+async function exibirPainel(sessao) {
+  estadoInicial.hidden = true;
   formularioLogin.reset();
-  formularioLogin.hidden = true;
+  telaLogin.hidden = true;
   painel.hidden = false;
-  await Promise.all([carregarEventos(), carregarFotosSite()]);
+  botaoSair.hidden = false;
+  document.querySelector('#nome-admin').textContent = sessao.nome;
+  document.querySelector('#avatar-admin').textContent = sessao.nome[0].toLocaleUpperCase('pt-BR');
+  document.querySelector('#perfil-admin').textContent = sessao.principal ? 'Conta principal' : 'Administrador';
+  document.querySelector('#link-administradores').hidden = !sessao.principal;
+  exibirSecao();
+  const tarefas = [carregarEventos(), carregarFotosSite()];
+  if (sessao.principal) tarefas.push(carregarAdministradores());
+  await Promise.all(tarefas);
 }
 
 acaoAoEnviar(formularioLogin, async (dados) => {
   await solicitar('/admin/entrar', 'POST', Object.fromEntries(dados));
+  const sessao = await solicitar('/admin/sessao');
   informar('');
-  await exibirPainel();
+  await exibirPainel(sessao);
 });
 
 acaoAoEnviar(formularioEvento, async (dados) => {
@@ -192,39 +262,52 @@ acaoAoEnviar(formularioEvento, async (dados) => {
   }
   if (!arquivos.length) dados.delete('fotos');
 
-  if (eventoEmEdicao) {
-    dados.set('versao', eventoEmEdicao.versao);
+  const eventoAtual = eventoEmEdicao;
+  if (eventoAtual) {
+    dados.set('versao', eventoAtual.versao);
     dados.set('manterFotos', JSON.stringify([...selecaoFotos.querySelectorAll('input:checked')].map((campo) => Number(campo.value))));
-    await solicitar('/admin/eventos/' + eventoEmEdicao.id, 'PUT', dados);
+    await solicitar('/admin/eventos/' + eventoAtual.id, 'PUT', dados);
   } else {
     await solicitar('/admin/eventos', 'POST', dados);
   }
 
   encerrarEdicao();
-  informar('Evento publicado.');
   await carregarEventos();
+  informar(eventoAtual ? 'Evento atualizado.' : 'Evento publicado.', 'sucesso');
 });
 
-acaoAoEnviar(document.querySelector('#formulario-senha'), async (dados) => {
+acaoAoEnviar(formularioAdministrador, async (dados) => {
+  const { nome, senha, confirmacao } = Object.fromEntries(dados);
+  if (senha !== confirmacao) throw new Error('A confirmação precisa ser igual à senha inicial.');
+  await solicitar('/admin/administradores', 'POST', { nome, senha });
+  formularioAdministrador.reset();
+  await carregarAdministradores();
+  informar('Administrador cadastrado.', 'sucesso');
+});
+
+acaoAoEnviar(formularioSenha, async (dados) => {
   const { senhaAtual, novaSenha, confirmacao } = Object.fromEntries(dados);
   if (novaSenha !== confirmacao) throw new Error('A confirmação precisa ser igual à nova senha.');
   await solicitar('/admin/senha', 'PATCH', { senhaAtual, novaSenha });
   exibirLogin();
-  informar('Senha alterada. Entre com a nova senha.');
+  informar('Senha alterada. Entre com a nova senha.', 'sucesso');
 });
 
 cancelarEdicao.addEventListener('click', encerrarEdicao);
-document.querySelector('#sair').addEventListener('click', async () => {
+window.addEventListener('hashchange', exibirSecao);
+botaoVerSenha.addEventListener('click', () => exibirSenha(campoSenhaLogin.type === 'password'));
+botaoSair.addEventListener('click', async () => {
   try {
     await solicitar('/admin/sair', 'POST');
     exibirLogin();
-    informar('Você saiu do painel.');
+    informar('Você saiu do painel.', 'sucesso');
   } catch (erro) {
-    informar(erro.message);
+    informar(erro.message, 'erro');
   }
 });
 
 solicitar('/admin/sessao').then(exibirPainel).catch((erro) => {
-  if (painel.hidden && formularioLogin.hidden) informar(erro.message);
-  else if (!painel.hidden) informar(erro.message);
+  if (!telaLogin.hidden) return;
+  if (painel.hidden) exibirLogin();
+  informar(erro.message, 'erro');
 });

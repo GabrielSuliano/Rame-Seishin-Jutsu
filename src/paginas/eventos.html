@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Veja os encontros, treinos e registros da comunidade Rame Seishin Jutsu.">
   <title>Eventos | Rame Seishin Jutsu</title>
   <link rel="icon" href="../imagens/favicon.ico">
   <link rel="stylesheet" href="../css/base.css">
   <link rel="stylesheet" href="../css/eventos.css">
+  <script type="module" src="../js/fotos-site.js"></script>
   <script type="module" src="../js/eventos.js"></script>
 </head>
-<body>
+<body class="pagina-eventos">
   <header class="topo-site">
     <div class="conteiner topo-conteudo">
       <a class="marca" href="index.html">
@@ -31,15 +33,50 @@
     </div>
   </header>
 
-  <main class="conteiner area-eventos">
-    <p id="voltar-eventos" hidden><a href="eventos.html">← Todos os eventos</a></p>
-    <h1 id="titulo-eventos">Eventos</h1>
-    <p id="estado-eventos" role="status" aria-live="polite">Carregando eventos…</p>
-    <div id="conteudo-eventos"></div>
+  <main>
+    <section class="capa-eventos">
+      <div class="conteiner capa-eventos-conteudo">
+        <a id="voltar-eventos" class="voltar-eventos" href="eventos.html" hidden>← Todos os eventos</a>
+        <p class="selo-eventos" id="selo-eventos">RAME SEISHIN JUTSU / COMUNIDADE</p>
+        <h1 id="titulo-eventos">Eventos</h1>
+        <p id="introducao-eventos">Encontros, treinos e momentos que fazem parte da história do Rame.</p>
+      </div>
+    </section>
+
+    <section class="conteiner acervo-eventos" aria-labelledby="titulo-acervo">
+      <header class="cabecalho-acervo">
+        <div>
+          <p class="selo-eventos">ARQUIVO DO DOJO</p>
+          <h2 id="titulo-acervo">Registros da comunidade</h2>
+        </div>
+        <span id="contagem-eventos" class="contagem-eventos" hidden></span>
+      </header>
+
+      <div id="quadro-eventos" class="quadro-eventos">
+        <span class="icone-quadro-eventos" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4m8-4v4m-8 8h2m4 0h2"/></svg>
+        </span>
+        <p id="estado-eventos" role="status" aria-live="polite">Carregando eventos…</p>
+        <p id="complemento-eventos" hidden></p>
+        <button type="button" class="tentar-eventos" id="tentar-eventos" hidden>Tentar novamente</button>
+      </div>
+      <div id="conteudo-eventos" aria-busy="true"></div>
+    </section>
   </main>
 
-  <footer class="rodape">
-    <div class="conteiner"><p>Rame Seishin Jutsu · Arte Marcial Tradicional</p></div>
+  <dialog id="visualizador-fotos" class="visualizador-fotos" aria-label="Foto do evento">
+    <div class="visualizador-barra">
+      <span id="legenda-visualizador"></span>
+      <form method="dialog"><button aria-label="Fechar foto">×</button></form>
+    </div>
+    <img id="foto-ampliada" alt="">
+  </dialog>
+
+  <footer class="rodape rodape-eventos">
+    <div class="conteiner">
+      <div><strong>Rame Seishin Jutsu</strong><span>Arte Marcial Tradicional</span></div>
+      <a href="contato.html">Fale com o Rame <span aria-hidden="true">↗</span></a>
+    </div>
   </footer>
 </body>
 </html>

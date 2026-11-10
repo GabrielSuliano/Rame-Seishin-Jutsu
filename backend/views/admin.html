@@ -4,68 +4,172 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Administração | Rame Seishin Jutsu</title>
+  <link rel="icon" href="/imagens/favicon.ico">
   <link rel="stylesheet" href="/css/base.css">
-  <link rel="stylesheet" href="/css/eventos.css">
+  <link rel="stylesheet" href="/painel-assets/admin.css">
   <script type="module" src="/painel-assets/admin.js"></script>
 </head>
-<body>
-  <main class="conteiner area-eventos">
-    <p><a href="/">← Voltar ao site</a></p>
-    <h1>Painel do Rame</h1>
-    <p id="aviso" role="status" aria-live="polite"></p>
+<body class="administracao">
+  <header class="barra-admin">
+    <div class="largura-admin barra-admin-conteudo">
+      <a class="marca" href="/">
+        <span class="marca-selo"><img src="/imagens/foto-rame-limpa.png" alt=""></span>
+        <span class="marca-texto">
+          <span class="marca-titulo">Rame Seishin Jutsu</span>
+          <span class="marca-subtitulo">Administração</span>
+        </span>
+      </a>
+      <div class="acoes-admin">
+        <a class="link-site" href="/eventos.html">Ver eventos <span aria-hidden="true">↗</span></a>
+        <button type="button" class="botao-admin botao-barra" id="sair" hidden>Sair</button>
+      </div>
+    </div>
+  </header>
 
-    <form id="login" class="formulario-painel" hidden>
-      <h2>Entrar</h2>
-      <label>Nome de usuário <input name="nome" autocomplete="username" required></label>
-      <label>Senha <input name="senha" type="password" autocomplete="current-password" required></label>
-      <button class="botao botao-primario">Entrar</button>
-    </form>
+  <main class="largura-admin">
+    <p id="estado-inicial" class="vazio-admin" role="status">Verificando o acesso ao painel…</p>
 
-    <div id="painel" hidden>
-      <nav class="acoes-painel" aria-label="Administração">
-        <a href="#secao-eventos">Eventos</a>
-        <a href="#secao-fotos">Fotos do site</a>
-        <a href="#secao-senha">Mudar senha</a>
-        <button type="button" class="botao botao-secundario" id="sair">Sair</button>
-      </nav>
-
-      <section id="secao-eventos" class="secao-painel">
-        <form id="formulario-evento" class="formulario-painel">
-          <h2 id="titulo-formulario">Publicar evento</h2>
-          <label>Título <input name="titulo" maxlength="120" required></label>
-          <label>Descrição <textarea name="descricao" maxlength="4000" rows="6" required></textarea></label>
-          <fieldset id="fotos-atuais" hidden>
-            <legend>Desmarque as fotos que deseja retirar</legend>
-            <div id="selecao-fotos" class="grade-eventos"></div>
-          </fieldset>
-          <label>Adicionar fotos (até 4 por envio, 6 MB cada)
-            <input name="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+    <div id="tela-login" class="tela-login" hidden>
+      <div class="imagem-login">
+        <p class="etiqueta-admin">RAME SEISHIN JUTSU</p>
+        <p class="titulo-imagem-login">A história do<br>nosso dojo.</p>
+      </div>
+      <section class="conteudo-login" aria-labelledby="titulo-login">
+        <p class="etiqueta-admin">ÁREA ADMINISTRATIVA</p>
+        <h1 id="titulo-login">Entrar no painel</h1>
+        <p class="texto-apoio">Use seu nome e sua senha para acessar.</p>
+        <form id="login" class="formulario-admin">
+          <label class="campo-admin">Nome
+            <input name="nome" autocomplete="username" maxlength="120" required>
           </label>
-          <div class="acoes-painel">
-            <button class="botao botao-primario">Salvar e publicar</button>
-            <button type="button" class="botao botao-secundario" id="cancelar-edicao" hidden>Cancelar edição</button>
+          <div class="campo-admin">
+            <label for="senha-login">Senha</label>
+            <span class="campo-com-acao">
+              <input id="senha-login" name="senha" type="password" autocomplete="current-password" required>
+              <button id="ver-senha" class="controle-senha" type="button" aria-controls="senha-login" aria-pressed="false">Mostrar</button>
+            </span>
           </div>
-        </form>
-        <h2>Eventos publicados</h2>
-        <div id="lista-eventos" class="grade-eventos"></div>
-      </section>
-
-      <section id="secao-fotos" class="secao-painel">
-        <h2>Fotos do site</h2>
-        <p>Uma troca vale para todas as páginas onde essa foto aparece.</p>
-        <div id="lista-fotos-site" class="grade-eventos"></div>
-      </section>
-
-      <section id="secao-senha" class="secao-painel">
-        <form id="formulario-senha" class="formulario-painel">
-          <h2>Mudar senha</h2>
-          <label>Senha atual <input name="senhaAtual" type="password" autocomplete="current-password" required></label>
-          <label>Nova senha <input name="novaSenha" type="password" autocomplete="new-password" minlength="12" required></label>
-          <label>Confirme a nova senha <input name="confirmacao" type="password" autocomplete="new-password" minlength="12" required></label>
-          <button class="botao botao-primario">Salvar senha</button>
+          <button class="botao-admin botao-acao">Entrar <span aria-hidden="true">→</span></button>
         </form>
       </section>
     </div>
+
+    <div id="painel" class="painel-admin" hidden>
+      <aside class="lateral-admin">
+        <p class="etiqueta-admin">PAINEL DO RAME</p>
+        <nav class="navegacao-admin" aria-label="Administração">
+          <a href="#secao-eventos" data-secao="secao-eventos">Eventos</a>
+          <a href="#secao-fotos" data-secao="secao-fotos">Fotos do site</a>
+          <a href="#secao-administradores" data-secao="secao-administradores" id="link-administradores" hidden>Administradores</a>
+          <a href="#secao-senha" data-secao="secao-senha">Minha senha</a>
+        </nav>
+        <div class="perfil-admin">
+          <span class="avatar-admin" id="avatar-admin" aria-hidden="true"></span>
+          <div><strong id="nome-admin"></strong><small id="perfil-admin"></small></div>
+        </div>
+      </aside>
+
+      <div class="conteudo-admin">
+        <section id="secao-eventos" class="secao-admin">
+          <header class="cabecalho-admin">
+            <p class="etiqueta-admin">CONTEÚDO DO SITE</p>
+            <h1>Eventos</h1>
+            <p class="texto-apoio">Publique encontros e mantenha as galerias do dojo atualizadas.</p>
+          </header>
+          <div class="grade-editor-admin">
+            <form id="formulario-evento" class="superficie-admin formulario-admin">
+              <h2 id="titulo-formulario">Publicar evento</h2>
+              <label class="campo-admin">Título
+                <input name="titulo" maxlength="120" placeholder="Ex. Treino especial do dojo" required>
+              </label>
+              <label class="campo-admin">Descrição
+                <textarea name="descricao" maxlength="4000" rows="5" placeholder="Conte o que aconteceu no evento." required></textarea>
+              </label>
+              <fieldset id="fotos-atuais" hidden>
+                <legend>Fotos publicadas</legend>
+                <p class="texto-apoio">Desmarque as fotos que deseja retirar.</p>
+                <div id="selecao-fotos" class="selecao-fotos-admin"></div>
+              </fieldset>
+              <label class="campo-admin envio-admin">Adicionar fotos
+                <input name="fotos" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="ajuda-fotos" multiple>
+                <small id="ajuda-fotos">Até 4 por envio e 6 MB por foto. JPG, PNG ou WebP.</small>
+              </label>
+              <div class="acoes-admin">
+                <button class="botao-admin botao-acao" id="salvar-evento">Salvar e publicar</button>
+                <button type="button" class="botao-admin botao-neutro" id="cancelar-edicao" hidden>Cancelar edição</button>
+              </div>
+            </form>
+            <section class="superficie-admin lista-admin" aria-labelledby="titulo-publicados">
+              <div class="titulo-com-contagem">
+                <h2 id="titulo-publicados">Publicados</h2>
+                <span id="total-eventos" class="marcador-admin"></span>
+              </div>
+              <div id="lista-eventos"><p class="vazio-admin">Carregando eventos…</p></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="secao-fotos" class="secao-admin" hidden>
+          <header class="cabecalho-admin">
+            <p class="etiqueta-admin">CONTEÚDO DO SITE</p>
+            <h1>Fotos do site</h1>
+            <p class="texto-apoio">Ao substituir uma foto, a troca vale para todas as páginas em que ela aparece.</p>
+          </header>
+          <div id="lista-fotos-site" class="grade-fotos-admin"><p class="vazio-admin">Carregando fotos…</p></div>
+        </section>
+
+        <section id="secao-administradores" class="secao-admin" hidden>
+          <header class="cabecalho-admin">
+            <p class="etiqueta-admin">CONTROLE DE ACESSO</p>
+            <h1>Administradores</h1>
+            <p class="texto-apoio">Cadastre pessoas para cuidar dos eventos e das fotos do Rame.</p>
+          </header>
+          <div class="grade-editor-admin">
+            <form id="formulario-administrador" class="superficie-admin formulario-admin">
+              <h2>Novo administrador</h2>
+              <label class="campo-admin">Nome
+                <input name="nome" minlength="2" maxlength="60" autocomplete="off" required>
+                <small>É o nome que a pessoa vai digitar ao entrar.</small>
+              </label>
+              <label class="campo-admin">Senha inicial
+                <input name="senha" type="password" minlength="12" autocomplete="new-password" required>
+                <small>Mínimo de 12 caracteres. A pessoa poderá trocar a senha no painel.</small>
+              </label>
+              <label class="campo-admin">Confirmar senha
+                <input name="confirmacao" type="password" minlength="12" autocomplete="new-password" required>
+              </label>
+              <div><button class="botao-admin botao-acao">Criar administrador</button></div>
+            </form>
+            <section class="superficie-admin lista-admin" aria-labelledby="titulo-equipe">
+              <h2 id="titulo-equipe">Equipe do painel</h2>
+              <ul id="lista-administradores" class="equipe-admin"></ul>
+            </section>
+          </div>
+        </section>
+
+        <section id="secao-senha" class="secao-admin" hidden>
+          <header class="cabecalho-admin">
+            <p class="etiqueta-admin">SEGURANÇA</p>
+            <h1>Minha senha</h1>
+            <p class="texto-apoio">Depois da troca, entre novamente com a senha nova.</p>
+          </header>
+          <form id="formulario-senha" class="superficie-admin formulario-admin formulario-estreito">
+            <h2>Alterar senha</h2>
+            <label class="campo-admin">Senha atual <input name="senhaAtual" type="password" autocomplete="current-password" required></label>
+            <label class="campo-admin">Nova senha
+              <input name="novaSenha" type="password" autocomplete="new-password" minlength="12" required>
+              <small>Mínimo de 12 caracteres.</small>
+            </label>
+            <label class="campo-admin">Confirme a nova senha
+              <input name="confirmacao" type="password" autocomplete="new-password" minlength="12" required>
+            </label>
+            <div><button class="botao-admin botao-acao">Salvar senha</button></div>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <p id="aviso" class="aviso-admin" role="status" aria-live="polite"></p>
   </main>
 </body>
 </html>

@@ -29,7 +29,9 @@ const limitarUploads = rateLimit({
 
 function exigirRequisicaoDoPainel(requisicao, resposta, proximo) {
   resposta.set('Cache-Control', 'no-store');
-  if (!['GET', 'HEAD'].includes(requisicao.method) && requisicao.get('X-Painel-Rame') !== '1') {
+  const origemNavegador = requisicao.get('Sec-Fetch-Site');
+  if (!['GET', 'HEAD'].includes(requisicao.method) &&
+      (requisicao.get('X-Painel-Rame') !== '1' || (origemNavegador && origemNavegador !== 'same-origin'))) {
     return resposta.status(403).json({ mensagem: 'Requisição externa bloqueada.' });
   }
   proximo();

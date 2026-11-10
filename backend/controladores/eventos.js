@@ -13,16 +13,20 @@ async function detalhar(requisicao, resposta) {
 }
 
 function validarVersao(versaoRecebida, evento) {
-  if (String(evento.versao) !== String(versaoRecebida)) {
-    throw Object.assign(new Error('O evento foi alterado em outra sessão. Atualize a página.'), { status: 409 });
+  if (versaoRecebida !== evento.versao && versaoRecebida !== String(evento.versao)) {
+    throw Object.assign(new Error('O evento foi alterado em outra sessão. Atualize a página.'), { status: 409, expor: true });
   }
 }
 
 async function salvar(requisicao, resposta) {
   const { titulo, descricao, versao, manterFotos } = requisicao.body || {};
-  if (typeof titulo !== 'string' || !titulo.trim() || titulo.trim().length > 120 ||
-      typeof descricao !== 'string' || !descricao.trim() || descricao.trim().length > 4000) {
+  const tituloFormatado = typeof titulo === 'string' ? titulo.normalize('NFC').trim() : '';
+  const descricaoFormatada = typeof descricao === 'string' ? descricao.normalize('NFC').replace(/\r\n?/g, '\n').trim() : '';
+  if (!tituloFormatado || tituloFormatado.length > 120 || !descricaoFormatada || descricaoFormatada.length > 4000) {
     return resposta.status(400).json({ mensagem: 'Preencha o título (até 120 caracteres) e a descrição (até 4.000).' });
+  }
+  if (/\p{Cc}/u.test(tituloFormatado) || /\p{Cc}/u.test(descricaoFormatada.replace(/[\t\n]/g, ''))) {
+    return resposta.status(400).json({ mensagem: 'O título ou a descrição contém caracteres de controle inválidos.' });
   }
 
   const identificador = requisicao.params.identificador;
@@ -31,6 +35,9 @@ async function salvar(requisicao, resposta) {
 
   if (eventoAnterior) {
     validarVersao(versao, eventoAnterior);
+    if (typeof manterFotos !== 'string') {
+      return resposta.status(400).json({ mensagem: 'Seleção de fotos inválida.' });
+    }
     let posicoes;
     try {
       posicoes = JSON.parse(manterFotos);
@@ -51,7 +58,7 @@ async function salvar(requisicao, resposta) {
 
   const novasFotos = await armazenarFotos(arquivos, 'eventos');
   const evento = await eventos.salvarEvento({
-    titulo: titulo.trim(), descricao: descricao.trim(), fotos: [...fotosMantidas, ...novasFotos]
+    titulo: tituloFormatado, descricao: descricaoFormatada, fotos: [...fotosMantidas, ...novasFotos]
   }, eventoAnterior);
 
   if (!evento) {

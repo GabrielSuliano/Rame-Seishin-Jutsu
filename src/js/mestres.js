@@ -39,15 +39,15 @@ function preencherTabelaMestres(listaMestres) {
   const corpoTabela = document.querySelector('#tabelaMestres tbody');
   if (!corpoTabela) return;
 
-  corpoTabela.innerHTML = listaMestres
-    .map(mestre => `
-      <tr>
-        <td class="grau">${mestre.grau}</td>
-        <td class="nome">${mestre.nome}</td>
-        <td class="posicao">${mestre.posicao || ''}</td>
-      </tr>
-    `)
-    .join('');
+  corpoTabela.replaceChildren();
+  for (const mestre of listaMestres) {
+    const linha = corpoTabela.insertRow();
+    for (const campo of ['grau', 'nome', 'posicao']) {
+      const celula = linha.insertCell();
+      celula.className = campo;
+      celula.textContent = mestre[campo] ?? '';
+    }
+  }
 }
 
 /**

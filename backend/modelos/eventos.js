@@ -18,7 +18,7 @@ async function buscarEvento(identificador) {
   const { data: evento, error: erro } = await supabaseServidor.from('eventos').select(camposEvento)
     .eq('id', identificador).maybeSingle();
   if (erro) throw erro;
-  if (!evento) throw Object.assign(new Error('Evento não encontrado.'), { status: 404 });
+  if (!evento) throw Object.assign(new Error('Evento não encontrado.'), { status: 404, expor: true });
   return evento;
 }
 

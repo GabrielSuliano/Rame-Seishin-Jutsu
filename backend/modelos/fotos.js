@@ -17,7 +17,7 @@ async function armazenarFoto(arquivo, pasta) {
       withoutEnlargement: true
     }).webp({ quality: 84 }).toBuffer();
   } catch {
-    throw Object.assign(new Error('Envie uma foto válida em JPG, PNG ou WebP de até 25 megapixels.'), { status: 400 });
+    throw Object.assign(new Error('Envie uma foto válida em JPG, PNG ou WebP de até 25 megapixels.'), { status: 400, expor: true });
   }
 
   const caminho = pasta + '/' + randomUUID() + '.webp';
@@ -76,7 +76,7 @@ async function atualizarFotoSite(identificador, arquivo) {
   if (erroAlteracao && erroAlteracao.code !== '23505') throw erroAlteracao;
   if (!alteracao) {
     await removerArquivos(caminho ? [caminho] : []);
-    throw Object.assign(new Error('A foto foi alterada em outra sessão. Atualize a página.'), { status: 409 });
+    throw Object.assign(new Error('A foto foi alterada em outra sessão. Atualize a página.'), { status: 409, expor: true });
   }
   if (fotoAnterior) await removerArquivos([fotoAnterior.caminho]);
 }

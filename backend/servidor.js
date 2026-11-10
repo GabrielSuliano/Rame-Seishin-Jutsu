@@ -8,6 +8,7 @@ const aplicacao = express();
 const porta = Number(process.env.PORT || 3000);
 
 aplicacao.disable('x-powered-by');
+aplicacao.set('json escape', true);
 if (process.env.RENDER === 'true') aplicacao.set('trust proxy', 1);
 
 aplicacao.use((requisicao, resposta, proximo) => {
@@ -19,6 +20,8 @@ aplicacao.get('/admin', (requisicao, resposta) => {
   resposta.set({
     'Cache-Control': 'no-store',
     'Content-Security-Policy': "default-src 'self'; img-src 'self' https:; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+    'Referrer-Policy': 'same-origin',
+    'X-Frame-Options': 'DENY',
     'X-Robots-Tag': 'noindex'
   }).sendFile(join(__dirname, 'views', 'admin.html'));
 });
@@ -30,13 +33,13 @@ aplicacao.use((erro, requisicao, resposta, proximo) => {
   if (erro instanceof multer.MulterError) {
     return resposta.status(400).json({ mensagem: 'Envie até 4 fotos por vez, de no máximo 6 MB cada.' });
   }
-  if ([400, 404, 409].includes(erro.status) && !erro.type) {
+  if (erro.expor === true && [400, 404, 409].includes(erro.status)) {
     return resposta.status(erro.status).json({ mensagem: erro.message });
   }
   if (erro.type === 'entity.parse.failed' || erro.type === 'entity.too.large') {
     return resposta.status(erro.status).json({ mensagem: 'Dados inválidos ou acima do limite.' });
   }
-  console.error('Falha na API:', erro.code || erro.name, erro.message);
+  console.error('Falha na API:', erro.code || erro.name, erro.status || 'sem status');
   resposta.status(500).json({ mensagem: 'Não foi possível concluir a operação. Tente novamente.' });
 });
 

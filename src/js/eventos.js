@@ -69,7 +69,6 @@ function exibirDetalhes(evento) {
   quadroEventos.hidden = true;
   tituloPagina.textContent = evento.titulo;
   document.title = evento.titulo + ' | Rame Seishin Jutsu';
-  document.querySelector('#selo-eventos').textContent = 'REGISTRO DO DOJO';
   document.querySelector('#introducao-eventos').textContent = 'Publicado em ' + formatoData.format(new Date(evento.criado_em));
   tituloAcervo.textContent = 'Sobre o evento';
   conteudoPagina.append(criarElemento('p', 'descricao-evento', evento.descricao));

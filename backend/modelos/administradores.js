@@ -2,6 +2,7 @@ const { randomUUID } = require('node:crypto');
 const { supabaseServidor } = require('../configuracao/supabase');
 
 const emailAdministradorPrincipal = 'admin@rame.example.com';
+const idAdministradorPrincipal = process.env.ID_ADMIN_PRINCIPAL?.trim();
 
 function normalizarNome(nome) {
   return nome.normalize('NFKC').trim().replace(/\s+/g, ' ').toLocaleLowerCase('pt-BR');
@@ -14,19 +15,25 @@ async function buscarAdministrador(campo, valor) {
   return administrador;
 }
 
-async function obterEmailDeAcesso(nomeNormalizado) {
-  if (nomeNormalizado === 'admin') return emailAdministradorPrincipal;
-
-  const administrador = await buscarAdministrador('nome_normalizado', nomeNormalizado);
-  if (!administrador) return null;
-  const { data: dadosAutenticacao, error: erro } = await supabaseServidor.auth.admin.getUserById(administrador.id);
+async function buscarEmailPorId(identificador) {
+  const { data: dadosAutenticacao, error: erro } = await supabaseServidor.auth.admin.getUserById(identificador);
   if (erro) throw erro;
   return dadosAutenticacao.user?.email;
 }
 
+async function obterEmailDeAcesso(nomeNormalizado) {
+  if (nomeNormalizado === 'admin') {
+    return idAdministradorPrincipal ? buscarEmailPorId(idAdministradorPrincipal) : emailAdministradorPrincipal;
+  }
+
+  const administrador = await buscarAdministrador('nome_normalizado', nomeNormalizado);
+  return administrador ? buscarEmailPorId(administrador.id) : null;
+}
+
 async function identificarAdministrador(usuario) {
   if (!usuario?.email_confirmed_at) return null;
-  if (usuario.email === emailAdministradorPrincipal) return { nome: 'admin', principal: true };
+  const contaPrincipal = idAdministradorPrincipal ? usuario.id === idAdministradorPrincipal : usuario.email === emailAdministradorPrincipal;
+  if (contaPrincipal) return { nome: 'admin', principal: true };
   const administrador = await buscarAdministrador('id', usuario.id);
   return administrador && { nome: administrador.nome, principal: false };
 }

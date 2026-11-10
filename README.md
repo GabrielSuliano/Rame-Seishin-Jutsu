@@ -69,3 +69,4 @@ No Render, selecione um Web Service Free com os comandos e variáveis definidos 
 O administrador pode publicar, editar e excluir eventos, substituir ou restaurar as quatro fotos usadas nas páginas do site e alterar a senha. As fotos de eventos são públicas e podem ser abertas em tamanho maior. Cada evento aceita até 24 fotos, com até 4 por envio e 6 MB por arquivo.
 
 A conta principal `admin` pode cadastrar outros administradores no painel. Cada pessoa entra com o nome cadastrado e a própria senha.
+Para usar uma conta existente do Supabase como `admin`, defina `ID_ADMIN_PRINCIPAL` com o UID dela em Authentication → Users. Ela precisa estar confirmada.

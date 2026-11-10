@@ -15,12 +15,11 @@
 
 .barra-admin { background: var(--cor-preta); color: var(--cor-branca); border-bottom: 3px solid var(--vinho-admin); }
 .barra-admin-conteudo { display: flex; min-height: 72px; align-items: center; justify-content: space-between; gap: 0.8rem; }
-.barra-admin .marca { gap: 0.5rem; }
+.barra-admin .marca { gap: 0.5rem; min-width: 0; flex-shrink: 1; }
 .barra-admin .marca-selo { width: 44px; height: 44px; }
 .barra-admin .marca-subtitulo { color: var(--cor-texto-meio); }
-.link-site { font-size: 0.85rem; min-height: 44px; display: inline-flex; align-items: center; gap: 0.35rem; }
-.link-site:hover { text-decoration: underline; }
 .acoes-admin { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
+.barra-admin .acoes-admin { flex-wrap: nowrap; }
 
 .tela-login {
   max-width: 480px;
@@ -79,6 +78,14 @@
 .avatar-admin { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: var(--cor-preta-card); color: #fff; font-weight: 750; font-size: 0.82rem; }
 
 .cabecalho-admin { margin-bottom: 1.35rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--linha-admin); }
+.site-no-painel {
+  display: block;
+  width: 100%;
+  height: clamp(420px, 76dvh, 900px);
+  border: 1px solid var(--linha-admin);
+  border-radius: var(--raio-medio);
+  background: var(--fundo-admin);
+}
 .grade-editor-admin { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; gap: 1.15rem; }
 
 .superficie-admin {
@@ -192,23 +199,27 @@
 .equipe-admin li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem; padding-block: 0.65rem; border-bottom: 1px solid var(--linha-admin); overflow-wrap: anywhere; }
 .equipe-admin li:last-child { border-bottom: 0; }
 
-.aviso-admin:not(:empty) {
-  position: fixed;
-  z-index: 10;
-  right: max(1rem, calc((100vw - 1240px) / 2));
-  bottom: 1.25rem;
-  width: min(390px, calc(100vw - 2rem));
+.aviso-admin {
+  min-width: 0;
   margin: 0;
-  padding: 0.85rem 1rem;
-  border-left: 4px solid #a5a5a5;
-  border-radius: 8px;
-  background: var(--cor-preta-suave);
-  color: #fff;
-  box-shadow: 0 10px 24px #00000038;
+  font-size: 0.875rem;
+  line-height: 1.45;
   overflow-wrap: anywhere;
 }
-.aviso-admin[data-tipo="erro"] { border-color: #ff9397; }
-.aviso-admin[data-tipo="sucesso"] { border-color: #a3c8a7; }
+
+.aviso-admin:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+.aviso-admin:not(:empty) {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--linha-admin);
+  border-left: 3px solid var(--cor-preta-suave);
+  border-radius: 6px;
+  background: #f7f7f7;
+  color: var(--tinta-admin);
+}
+#aviso-painel:not(:empty) { margin-bottom: 1rem; }
+#aviso-lista-eventos:not(:empty) { margin-top: 0.75rem; }
+.aviso-admin[data-tipo="erro"]:not(:empty) { background: #fff4f4; border-color: #f1cacc; border-left-color: var(--vinho-admin); }
+.aviso-admin[data-tipo="sucesso"]:not(:empty) { background: #f2f8f4; border-color: #d1e6d8; border-left-color: #267140; }
 
 @media (max-width: 950px) {
   .grade-editor-admin { grid-template-columns: 1fr; }
@@ -227,5 +238,7 @@
 @media (max-width: 390px) {
   .barra-admin .marca-selo { width: 34px; height: 34px; }
   .barra-admin .marca-titulo { font-size: 0.83rem; }
-  .barra-admin .marca-subtitulo, .link-site { font-size: 0.73rem; }
+  .barra-admin .marca-subtitulo { font-size: 0.73rem; }
+  .barra-admin .acoes-admin { gap: 0.4rem; }
+  .barra-admin .botao-barra { padding-inline: 0.65rem; }
 }

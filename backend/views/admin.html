@@ -12,15 +12,14 @@
 <body class="administracao">
   <header class="barra-admin">
     <div class="largura-admin barra-admin-conteudo">
-      <a class="marca" href="/">
+      <div class="marca">
         <span class="marca-selo"><img src="/imagens/foto-rame-limpa.png" alt=""></span>
         <span class="marca-texto">
           <span class="marca-titulo">Rame Seishin Jutsu</span>
           <span class="marca-subtitulo">Administração</span>
         </span>
-      </a>
+      </div>
       <div class="acoes-admin">
-        <a class="link-site" href="/eventos.html">Ver eventos <span aria-hidden="true">↗</span></a>
         <button type="button" class="botao-admin botao-barra" id="sair" hidden>Sair</button>
       </div>
     </div>
@@ -44,6 +43,7 @@
               <button id="ver-senha" class="controle-senha" type="button" aria-controls="senha-login" aria-pressed="false">Mostrar</button>
             </span>
           </div>
+          <p id="aviso-login" class="aviso-admin" data-aviso-formulario role="status" aria-atomic="true"></p>
           <button class="botao-admin botao-acao">Entrar <span aria-hidden="true">→</span></button>
         </form>
       </section>
@@ -54,6 +54,7 @@
         <p class="etiqueta-admin">PAINEL DO RAME</p>
         <nav class="navegacao-admin" aria-label="Administração">
           <a href="#secao-eventos" data-secao="secao-eventos">Eventos</a>
+          <a href="#secao-site" data-secao="secao-site">Site</a>
           <a href="#secao-fotos" data-secao="secao-fotos">Fotos do site</a>
           <a href="#secao-administradores" data-secao="secao-administradores" id="link-administradores" hidden>Administradores</a>
           <a href="#secao-senha" data-secao="secao-senha">Minha senha</a>
@@ -65,6 +66,7 @@
       </aside>
 
       <div class="conteudo-admin">
+        <p id="aviso-painel" class="aviso-admin" role="status" aria-atomic="true"></p>
         <section id="secao-eventos" class="secao-admin">
           <header class="cabecalho-admin">
             <h1>Eventos</h1>
@@ -88,6 +90,7 @@
                 <input name="fotos" type="file" accept="image/jpeg,image/png,image/webp" aria-describedby="ajuda-fotos" multiple>
                 <small id="ajuda-fotos">Até 4 por envio e 6 MB por foto. JPG, PNG ou WebP.</small>
               </label>
+              <p class="aviso-admin" data-aviso-formulario role="status" aria-atomic="true"></p>
               <div class="acoes-admin">
                 <button class="botao-admin botao-acao" id="salvar-evento">Salvar e publicar</button>
                 <button type="button" class="botao-admin botao-neutro" id="cancelar-edicao" hidden>Cancelar edição</button>
@@ -98,9 +101,18 @@
                 <h2 id="titulo-publicados">Publicados</h2>
                 <span id="total-eventos" class="marcador-admin"></span>
               </div>
+              <p id="aviso-lista-eventos" class="aviso-admin" role="status" aria-atomic="true"></p>
               <div id="lista-eventos"><p class="vazio-admin">Carregando eventos…</p></div>
             </section>
           </div>
+        </section>
+
+        <section id="secao-site" class="secao-admin" hidden>
+          <header class="cabecalho-admin">
+            <h1>Site público</h1>
+            <p class="texto-apoio">Navegue pelo site aqui e use o menu do painel para voltar à administração.</p>
+          </header>
+          <iframe id="site-no-painel" class="site-no-painel" title="Site público do Rame Seishin Jutsu"></iframe>
         </section>
 
         <section id="secao-fotos" class="secao-admin" hidden>
@@ -130,6 +142,7 @@
               <label class="campo-admin">Confirmar senha
                 <input name="confirmacao" type="password" minlength="12" autocomplete="new-password" required>
               </label>
+              <p class="aviso-admin" data-aviso-formulario role="status" aria-atomic="true"></p>
               <div><button class="botao-admin botao-acao">Criar administrador</button></div>
             </form>
             <section class="superficie-admin lista-admin" aria-labelledby="titulo-equipe">
@@ -154,13 +167,13 @@
             <label class="campo-admin">Confirme a nova senha
               <input name="confirmacao" type="password" autocomplete="new-password" minlength="12" required>
             </label>
+            <p class="aviso-admin" data-aviso-formulario role="status" aria-atomic="true"></p>
             <div><button class="botao-admin botao-acao">Salvar senha</button></div>
           </form>
         </section>
       </div>
     </div>
 
-    <p id="aviso" class="aviso-admin" role="status" aria-live="polite"></p>
   </main>
 </body>
 </html>

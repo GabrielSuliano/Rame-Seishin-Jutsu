@@ -2,7 +2,10 @@ const formularioLogin = document.querySelector('#login');
 const telaLogin = document.querySelector('#tela-login');
 const estadoInicial = document.querySelector('#estado-inicial');
 const painel = document.querySelector('#painel');
-const aviso = document.querySelector('#aviso');
+const avisoLogin = document.querySelector('#aviso-login');
+const avisoPainel = document.querySelector('#aviso-painel');
+const avisoListaEventos = document.querySelector('#aviso-lista-eventos');
+const siteNoPainel = document.querySelector('#site-no-painel');
 const formularioEvento = document.querySelector('#formulario-evento');
 const listaEventos = document.querySelector('#lista-eventos');
 const listaFotosSite = document.querySelector('#lista-fotos-site');
@@ -37,9 +40,9 @@ async function solicitar(caminho, metodo = 'GET', dados) {
   return resultado;
 }
 
-function informar(mensagem, tipo = 'info') {
-  aviso.textContent = mensagem;
-  aviso.dataset.tipo = tipo;
+function informar(destino, mensagem, tipo = 'info') {
+  destino.dataset.tipo = tipo;
+  destino.textContent = mensagem;
 }
 
 function criarElemento(tipo, classe, texto) {
@@ -50,23 +53,29 @@ function criarElemento(tipo, classe, texto) {
 }
 
 function acaoAoEnviar(formulario, executar) {
+  const avisoFormulario = formulario.querySelector('[data-aviso-formulario]');
+  function avisar(mensagem, tipo) {
+    const destino = painel.hidden ? avisoLogin : formulario === formularioLogin ? avisoPainel : avisoFormulario;
+    informar(destino, mensagem, tipo);
+  }
+
   formulario.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     const botao = formulario.querySelector('button[type="submit"], button:not([type])');
     if (botao.disabled) return;
     botao.disabled = true;
-    informar('Aguarde…');
+    avisar('Aguarde…');
     try {
-      await executar(new FormData(formulario));
+      await executar(new FormData(formulario), avisar);
     } catch (erro) {
-      informar(erro.message, 'erro');
+      avisar(erro.message, 'erro');
     } finally {
       botao.disabled = false;
     }
   });
 }
 
-function criarBotao(texto, acao, classe = 'botao-neutro') {
+function criarBotao(texto, acao, destinoAviso, classe = 'botao-neutro') {
   const botao = criarElemento('button', 'botao-admin ' + classe, texto);
   botao.type = 'button';
   botao.addEventListener('click', async () => {
@@ -74,7 +83,7 @@ function criarBotao(texto, acao, classe = 'botao-neutro') {
     try {
       await acao();
     } catch (erro) {
-      informar(erro.message, 'erro');
+      informar(painel.hidden ? avisoLogin : destinoAviso, erro.message, 'erro');
     } finally {
       botao.disabled = false;
     }
@@ -97,6 +106,9 @@ function exibirSecao() {
     if (selecionado) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
     document.getElementById(link.dataset.secao).hidden = !selecionado;
+  }
+  if (!painel.hidden && linkAtivo.dataset.secao === 'secao-site' && !siteNoPainel.hasAttribute('src')) {
+    siteNoPainel.src = '/';
   }
 }
 
@@ -147,14 +159,14 @@ async function carregarEventos() {
     const data = criarElemento('time', 'data-admin', formatoData.format(new Date(evento.criado_em)));
     data.dateTime = evento.criado_em;
     const acoes = criarElemento('div', 'acoes-admin');
-    acoes.append(criarBotao('Editar', () => editarEvento(evento.id)), criarBotao('Excluir', async () => {
+    acoes.append(criarBotao('Editar', () => editarEvento(evento.id), avisoListaEventos), criarBotao('Excluir', async () => {
       if (!confirm('Excluir o evento "' + evento.titulo + '" e todas as suas fotos?')) return;
       const atual = await solicitar('/eventos/' + evento.id);
       await solicitar('/admin/eventos/' + evento.id, 'DELETE', { versao: atual.versao });
       if (eventoEmEdicao?.id === evento.id) encerrarEdicao();
       await carregarEventos();
-      informar('Evento excluído.', 'sucesso');
-    }, 'botao-perigo'));
+      informar(avisoListaEventos, 'Evento excluído.', 'sucesso');
+    }, avisoListaEventos, 'botao-perigo'));
     corpo.append(criarElemento('h3', '', evento.titulo), data, acoes);
     linha.append(evento.capa ? criarImagem(evento.capa, '') : criarElemento('span', 'capa-vazia-admin', 'RAME'), corpo);
     listaEventos.append(linha);
@@ -183,21 +195,36 @@ async function carregarFotosSite() {
     const acoes = criarElemento('div', 'acoes-admin');
     const salvar = criarElemento('button', 'botao-admin botao-acao', 'Substituir');
     salvar.type = 'submit';
-    acoes.append(salvar);
-    if (fotos[identificador]) acoes.append(criarBotao('Restaurar original', async () => {
+    const avisoFoto = criarElemento('p', 'aviso-admin');
+    avisoFoto.dataset.avisoFormulario = '';
+    avisoFoto.setAttribute('role', 'status');
+    avisoFoto.setAttribute('aria-atomic', 'true');
+    const imagem = criarImagem(fotos[identificador] || '/imagens/' + identificador + '.png', rotulo);
+    const marcador = criarElemento('span', 'marcador-admin');
+    const restaurar = criarBotao('Restaurar original', async () => {
       await solicitar('/admin/fotos-site/' + identificador, 'DELETE');
-      await carregarFotosSite();
-      informar('Foto original restaurada.', 'sucesso');
-    }));
-    corpo.append(criarElemento('span', 'marcador-admin', fotos[identificador] ? 'Personalizada' : 'Original'),
-      criarElemento('h3', '', rotulo), rotuloFoto, acoes);
-    formulario.append(criarImagem(fotos[identificador] || '/imagens/' + identificador + '.png', rotulo), corpo);
+      exibirFoto();
+      informar(avisoFoto, 'Foto original restaurada.', 'sucesso');
+    }, avisoFoto);
 
-    acaoAoEnviar(formulario, async (dados) => {
+    function exibirFoto(url) {
+      imagem.src = url || '/imagens/' + identificador + '.png';
+      marcador.textContent = url ? 'Personalizada' : 'Original';
+      restaurar.hidden = !url;
+    }
+
+    exibirFoto(fotos[identificador]);
+    acoes.append(salvar, restaurar);
+    corpo.append(marcador, criarElemento('h3', '', rotulo), rotuloFoto, avisoFoto, acoes);
+    formulario.append(imagem, corpo);
+
+    acaoAoEnviar(formulario, async (dados, avisar) => {
       if (campoFoto.files[0]?.size > 6 * 1024 * 1024) throw new Error('Escolha uma foto de até 6 MB.');
       await solicitar('/admin/fotos-site/' + identificador, 'PUT', dados);
-      await carregarFotosSite();
-      informar('Foto substituída.', 'sucesso');
+      const fotosAtualizadas = await solicitar('/fotos-site');
+      exibirFoto(fotosAtualizadas[identificador]);
+      formulario.reset();
+      avisar('Foto substituída.', 'sucesso');
     });
     listaFotosSite.append(formulario);
   }
@@ -225,6 +252,7 @@ function exibirLogin() {
   painel.hidden = true;
   botaoSair.hidden = true;
   telaLogin.hidden = false;
+  informar(avisoLogin, '');
   formularioLogin.reset();
   formularioSenha.reset();
   formularioAdministrador.reset();
@@ -237,6 +265,7 @@ async function exibirPainel(sessao) {
   formularioLogin.reset();
   telaLogin.hidden = true;
   painel.hidden = false;
+  painel.querySelectorAll('.aviso-admin').forEach((destino) => informar(destino, ''));
   botaoSair.hidden = false;
   document.querySelector('#nome-admin').textContent = sessao.nome;
   document.querySelector('#avatar-admin').textContent = sessao.nome[0].toLocaleUpperCase('pt-BR');
@@ -251,11 +280,10 @@ async function exibirPainel(sessao) {
 acaoAoEnviar(formularioLogin, async (dados) => {
   await solicitar('/admin/entrar', 'POST', Object.fromEntries(dados));
   const sessao = await solicitar('/admin/sessao');
-  informar('');
   await exibirPainel(sessao);
 });
 
-acaoAoEnviar(formularioEvento, async (dados) => {
+acaoAoEnviar(formularioEvento, async (dados, avisar) => {
   const arquivos = formularioEvento.elements.fotos.files;
   if (arquivos.length > 4 || [...arquivos].some((arquivo) => arquivo.size > 6 * 1024 * 1024)) {
     throw new Error('Envie até 4 fotos por vez, de no máximo 6 MB cada.');
@@ -273,24 +301,24 @@ acaoAoEnviar(formularioEvento, async (dados) => {
 
   encerrarEdicao();
   await carregarEventos();
-  informar(eventoAtual ? 'Evento atualizado.' : 'Evento publicado.', 'sucesso');
+  avisar(eventoAtual ? 'Evento atualizado.' : 'Evento publicado.', 'sucesso');
 });
 
-acaoAoEnviar(formularioAdministrador, async (dados) => {
+acaoAoEnviar(formularioAdministrador, async (dados, avisar) => {
   const { nome, senha, confirmacao } = Object.fromEntries(dados);
   if (senha !== confirmacao) throw new Error('A confirmação precisa ser igual à senha inicial.');
   await solicitar('/admin/administradores', 'POST', { nome, senha });
   formularioAdministrador.reset();
   await carregarAdministradores();
-  informar('Administrador cadastrado.', 'sucesso');
+  avisar('Administrador cadastrado.', 'sucesso');
 });
 
-acaoAoEnviar(formularioSenha, async (dados) => {
+acaoAoEnviar(formularioSenha, async (dados, avisar) => {
   const { senhaAtual, novaSenha, confirmacao } = Object.fromEntries(dados);
   if (novaSenha !== confirmacao) throw new Error('A confirmação precisa ser igual à nova senha.');
   await solicitar('/admin/senha', 'PATCH', { senhaAtual, novaSenha });
   exibirLogin();
-  informar('Senha alterada. Entre com a nova senha.', 'sucesso');
+  avisar('Senha alterada. Entre com a nova senha.', 'sucesso');
 });
 
 cancelarEdicao.addEventListener('click', encerrarEdicao);
@@ -300,14 +328,14 @@ botaoSair.addEventListener('click', async () => {
   try {
     await solicitar('/admin/sair', 'POST');
     exibirLogin();
-    informar('Você saiu do painel.', 'sucesso');
+    informar(avisoLogin, 'Você saiu do painel.', 'sucesso');
   } catch (erro) {
-    informar(erro.message, 'erro');
+    informar(avisoPainel, erro.message, 'erro');
   }
 });
 
 solicitar('/admin/sessao').then(exibirPainel).catch((erro) => {
   if (!telaLogin.hidden) return;
   if (painel.hidden) exibirLogin();
-  informar(erro.message, 'erro');
+  informar(painel.hidden ? avisoLogin : avisoPainel, erro.message, 'erro');
 });

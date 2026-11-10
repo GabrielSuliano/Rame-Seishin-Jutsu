@@ -199,6 +199,10 @@
 .rodape-eventos div > span { font-size: 0.82rem; color: #c6b8b8; }
 
 @media (max-width: 760px) {
+  .pagina-eventos .conteiner { width: calc(100% - 2rem); }
+  .pagina-eventos .topo-conteudo { gap: 5px; padding-block: 10px 4px; }
+  .pagina-eventos .menu-principal { gap: 0 16px; }
+  .pagina-eventos .menu-principal a { min-height: 40px; padding: 8px 0 6px; font-size: 0.84rem; }
   .capa-eventos { background-image: linear-gradient(90deg, #120c0def, #211114b0), var(--foto2, url("../imagens/foto2.png")); }
-  .capa-eventos-conteudo { min-height: 280px; padding-block: 2.75rem; }
+  .capa-eventos-conteudo { min-height: 255px; padding-block: 2.5rem; }
 }

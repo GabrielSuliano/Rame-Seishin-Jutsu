@@ -10,7 +10,9 @@ function senhaValida(senha) {
 
 async function entrar(requisicao, resposta) {
   const { nome, senha } = requisicao.body || {};
-  const nomeNormalizado = typeof nome === 'string' && nome.length <= 120 ? administradores.normalizarNome(nome) : '';
+  const nomeComEspacosValidos = typeof nome === 'string' && nome.length <= 120 &&
+    nome === nome.trim().replace(/\s+/g, ' ');
+  const nomeNormalizado = nomeComEspacosValidos ? administradores.normalizarNome(nome) : '';
   const email = nomeNormalizado && typeof senha === 'string' && senha.length <= 256
     ? await administradores.obterEmailDeAcesso(nomeNormalizado)
     : null;

@@ -5,7 +5,9 @@ const painel = document.querySelector('#painel');
 const avisoLogin = document.querySelector('#aviso-login');
 const avisoPainel = document.querySelector('#aviso-painel');
 const avisoListaEventos = document.querySelector('#aviso-lista-eventos');
-const siteNoPainel = document.querySelector('#site-no-painel');
+const menuSiteAdmin = document.querySelector('#menu-site-admin');
+const avisoEquipe = document.querySelector('#aviso-equipe');
+const modeloRedefinirSenha = document.querySelector('#modelo-redefinir-senha');
 const formularioEvento = document.querySelector('#formulario-evento');
 const listaEventos = document.querySelector('#lista-eventos');
 const listaFotosSite = document.querySelector('#lista-fotos-site');
@@ -106,9 +108,6 @@ function exibirSecao() {
     if (selecionado) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
     document.getElementById(link.dataset.secao).hidden = !selecionado;
-  }
-  if (!painel.hidden && linkAtivo.dataset.secao === 'secao-site' && !siteNoPainel.hasAttribute('src')) {
-    siteNoPainel.src = '/';
   }
 }
 
@@ -230,15 +229,73 @@ async function carregarFotosSite() {
   }
 }
 
+function criarLinhaAdministrador(conta) {
+  const linha = document.createElement('li');
+  const cabecalho = criarElemento('div', 'conta-admin');
+  cabecalho.append(criarElemento('strong', '', conta.nome),
+    criarElemento('span', 'marcador-admin', conta.principal ? 'Conta principal' : 'Administrador'));
+  linha.append(cabecalho);
+  if (conta.principal) return linha;
+
+  const caminhoConta = '/admin/administradores/' + encodeURIComponent(conta.id);
+  const formulario = modeloRedefinirSenha.content.firstElementChild.cloneNode(true);
+  const avisoFormulario = formulario.querySelector('[data-aviso-formulario]');
+  const acoes = criarElemento('div', 'acoes-admin acoes-conta-admin');
+  const redefinir = criarBotao('Redefinir senha', () => {
+    formulario.hidden = false;
+    redefinir.hidden = true;
+    informar(avisoEquipe, '');
+    formulario.elements.novaSenha.focus();
+  }, avisoEquipe);
+  redefinir.setAttribute('aria-label', 'Redefinir senha de ' + conta.nome);
+
+  function fecharFormulario() {
+    formulario.reset();
+    informar(avisoFormulario, '');
+    formulario.hidden = true;
+    redefinir.hidden = false;
+    redefinir.focus();
+  }
+
+  const caixaExclusao = criarElemento('div', 'redefinir-senha-admin');
+  caixaExclusao.hidden = true;
+  const excluir = criarBotao('Excluir', () => {
+    caixaExclusao.hidden = false;
+    excluir.hidden = true;
+    cancelarExclusao.focus();
+  }, avisoEquipe, 'botao-perigo');
+  excluir.setAttribute('aria-label', 'Excluir administrador ' + conta.nome);
+  const confirmarExclusao = criarBotao('Confirmar exclusão', async () => {
+    await solicitar(caminhoConta, 'DELETE');
+    linha.remove();
+    informar(avisoEquipe, 'Administrador excluído.', 'sucesso');
+  }, avisoEquipe, 'botao-perigo');
+  const cancelarExclusao = criarBotao('Cancelar exclusão', () => {
+    caixaExclusao.hidden = true;
+    excluir.hidden = false;
+    excluir.focus();
+  }, avisoEquipe);
+  const acoesExclusao = criarElemento('div', 'acoes-admin acoes-conta-admin');
+  acoesExclusao.append(confirmarExclusao, cancelarExclusao);
+  caixaExclusao.append(criarElemento('p', 'texto-apoio', 'Remover o acesso de ' + conta.nome + ' ao painel?'), acoesExclusao);
+
+  formulario.querySelector('[data-cancelar]').addEventListener('click', fecharFormulario);
+  acaoAoEnviar(formulario, async (dados) => {
+    const { novaSenha, confirmacao } = Object.fromEntries(dados);
+    if (novaSenha !== confirmacao) throw new Error('A confirmação precisa ser igual à nova senha.');
+    await solicitar(caminhoConta + '/senha', 'PATCH', { novaSenha });
+    fecharFormulario();
+    informar(avisoEquipe, 'Senha redefinida.', 'sucesso');
+  });
+
+  acoes.append(redefinir, excluir);
+  linha.append(acoes, formulario, caixaExclusao);
+  return linha;
+}
+
 async function carregarAdministradores() {
   const contas = await solicitar('/admin/administradores');
-  listaAdministradores.replaceChildren();
-  for (const conta of [{ nome: 'admin', principal: true }, ...contas]) {
-    const linha = document.createElement('li');
-    linha.append(criarElemento('strong', '', conta.nome),
-      criarElemento('span', 'marcador-admin', conta.principal ? 'Conta principal' : 'Administrador'));
-    listaAdministradores.append(linha);
-  }
+  listaAdministradores.replaceChildren(...[{ nome: 'admin', principal: true }, ...contas].map(criarLinhaAdministrador));
 }
 
 function exibirSenha(visivel) {
@@ -251,6 +308,7 @@ function exibirLogin() {
   estadoInicial.hidden = true;
   painel.hidden = true;
   botaoSair.hidden = true;
+  menuSiteAdmin.hidden = true;
   telaLogin.hidden = false;
   informar(avisoLogin, '');
   formularioLogin.reset();
@@ -265,6 +323,7 @@ async function exibirPainel(sessao) {
   formularioLogin.reset();
   telaLogin.hidden = true;
   painel.hidden = false;
+  menuSiteAdmin.hidden = false;
   painel.querySelectorAll('.aviso-admin').forEach((destino) => informar(destino, ''));
   botaoSair.hidden = false;
   document.querySelector('#nome-admin').textContent = sessao.nome;
@@ -307,9 +366,9 @@ acaoAoEnviar(formularioEvento, async (dados, avisar) => {
 acaoAoEnviar(formularioAdministrador, async (dados, avisar) => {
   const { nome, senha, confirmacao } = Object.fromEntries(dados);
   if (senha !== confirmacao) throw new Error('A confirmação precisa ser igual à senha inicial.');
-  await solicitar('/admin/administradores', 'POST', { nome, senha });
+  const conta = await solicitar('/admin/administradores', 'POST', { nome, senha });
   formularioAdministrador.reset();
-  await carregarAdministradores();
+  listaAdministradores.append(criarLinhaAdministrador(conta));
   avisar('Administrador cadastrado.', 'sucesso');
 });
 

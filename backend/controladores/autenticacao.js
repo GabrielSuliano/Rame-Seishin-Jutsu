@@ -104,4 +104,27 @@ async function criarConta(requisicao, resposta) {
   resposta.status(201).json(administrador);
 }
 
-module.exports = { entrar, sair, sessao, exigirAdministrador, exigirAdministradorPrincipal, alterarSenha, listarContas, criarConta };
+async function redefinirSenhaConta(requisicao, resposta) {
+  const { novaSenha } = requisicao.body || {};
+  if (!senhaValida(novaSenha)) return resposta.status(400).json({ mensagem: 'Use uma senha com pelo menos 8 caracteres e até 72 bytes.' });
+
+  try {
+    const alterado = await administradores.redefinirSenha(requisicao.params.identificador, novaSenha);
+    if (!alterado) return resposta.status(404).json({ mensagem: 'Administrador não encontrado.' });
+    resposta.sendStatus(204);
+  } catch (erro) {
+    if (erro.code !== 'weak_password') throw erro;
+    resposta.status(400).json({ mensagem: 'O Supabase recusou a nova senha. Escolha outra senha.' });
+  }
+}
+
+async function excluirConta(requisicao, resposta) {
+  const excluido = await administradores.excluirAdministrador(requisicao.params.identificador);
+  if (!excluido) return resposta.status(404).json({ mensagem: 'Administrador não encontrado.' });
+  resposta.sendStatus(204);
+}
+
+module.exports = {
+  entrar, sair, sessao, exigirAdministrador, exigirAdministradorPrincipal, alterarSenha,
+  listarContas, criarConta, redefinirSenhaConta, excluirConta
+};

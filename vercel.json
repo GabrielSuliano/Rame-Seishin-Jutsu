@@ -1,5 +1,10 @@
 {
   "buildCommand": "URL_BACKEND_PUBLICO=https://rame-seishin-jutsu.onrender.com npm run build",
   "outputDirectory": "dist",
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/admin", "destination": "https://rame-seishin-jutsu.onrender.com/admin" },
+    { "source": "/painel-assets/:caminho*", "destination": "https://rame-seishin-jutsu.onrender.com/painel-assets/:caminho*" },
+    { "source": "/api/:caminho*", "destination": "https://rame-seishin-jutsu.onrender.com/api/:caminho*" }
+  ]
 }

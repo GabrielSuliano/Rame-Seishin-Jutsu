@@ -18,6 +18,7 @@
 .barra-admin .marca { gap: 0.5rem; min-width: 0; flex-shrink: 1; }
 .barra-admin .marca-selo { width: 44px; height: 44px; }
 .barra-admin .marca-subtitulo { color: var(--cor-texto-meio); }
+.barra-admin .menu-principal { gap: 0 clamp(0.65rem, 1.35vw, 1.5rem); }
 .acoes-admin { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
 .barra-admin .acoes-admin { flex-wrap: nowrap; }
 
@@ -78,14 +79,6 @@
 .avatar-admin { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: var(--cor-preta-card); color: #fff; font-weight: 750; font-size: 0.82rem; }
 
 .cabecalho-admin { margin-bottom: 1.35rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--linha-admin); }
-.site-no-painel {
-  display: block;
-  width: 100%;
-  height: clamp(420px, 76dvh, 900px);
-  border: 1px solid var(--linha-admin);
-  border-radius: var(--raio-medio);
-  background: var(--fundo-admin);
-}
 .grade-editor-admin { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; gap: 1.15rem; }
 
 .superficie-admin {
@@ -196,8 +189,11 @@
 .selecao-fotos-admin input { accent-color: var(--vinho-admin); }
 
 .equipe-admin { list-style: none; padding: 0; margin: 0.5rem 0 0; }
-.equipe-admin li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem; padding-block: 0.65rem; border-bottom: 1px solid var(--linha-admin); overflow-wrap: anywhere; }
+.equipe-admin li { padding-block: 0.75rem; border-bottom: 1px solid var(--linha-admin); overflow-wrap: anywhere; }
 .equipe-admin li:last-child { border-bottom: 0; }
+.conta-admin { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.35rem; }
+.acoes-conta-admin, .redefinir-senha-admin, #aviso-equipe:not(:empty) { margin-top: 0.7rem; }
+.redefinir-senha-admin { padding: 0.75rem; background: #fafafa; border: 1px solid var(--linha-admin); border-radius: 8px; }
 
 .aviso-admin {
   min-width: 0;
@@ -223,6 +219,10 @@
 
 @media (max-width: 950px) {
   .grade-editor-admin { grid-template-columns: 1fr; }
+  .barra-admin-conteudo { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding-top: 0.55rem; }
+  .barra-admin .menu-principal { grid-column: 1 / -1; justify-content: center; }
+  .barra-admin .acoes-admin { grid-column: 2; grid-row: 1; }
+  .barra-admin .menu-principal a { padding: 0.45rem 0.1rem; font-size: 0.85rem; }
 }
 
 @media (max-width: 720px) {

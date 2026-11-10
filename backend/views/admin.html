@@ -19,6 +19,16 @@
           <span class="marca-subtitulo">Administração</span>
         </span>
       </div>
+      <nav id="menu-site-admin" class="menu-principal" aria-label="Menu principal" hidden>
+        <a href="/">Início</a>
+        <a href="/historia.html">História</a>
+        <a href="/sobre-o-rame.html">Sobre o Rame</a>
+        <a href="/mestres.html">Mestres</a>
+        <a href="/fundamentos.html">Fundamentos</a>
+        <a href="/eventos.html">Eventos</a>
+        <a href="/contato.html">Contato</a>
+        <a href="/admin" class="ativo" aria-current="page">Admin</a>
+      </nav>
       <div class="acoes-admin">
         <button type="button" class="botao-admin botao-barra" id="sair" hidden>Sair</button>
       </div>
@@ -54,7 +64,6 @@
         <p class="etiqueta-admin">PAINEL DO RAME</p>
         <nav class="navegacao-admin" aria-label="Administração">
           <a href="#secao-eventos" data-secao="secao-eventos">Eventos</a>
-          <a href="#secao-site" data-secao="secao-site">Site</a>
           <a href="#secao-fotos" data-secao="secao-fotos">Fotos do site</a>
           <a href="#secao-administradores" data-secao="secao-administradores" id="link-administradores" hidden>Administradores</a>
           <a href="#secao-senha" data-secao="secao-senha">Minha senha</a>
@@ -107,14 +116,6 @@
           </div>
         </section>
 
-        <section id="secao-site" class="secao-admin" hidden>
-          <header class="cabecalho-admin">
-            <h1>Site público</h1>
-            <p class="texto-apoio">Navegue pelo site aqui e use o menu do painel para voltar à administração.</p>
-          </header>
-          <iframe id="site-no-painel" class="site-no-painel" title="Site público do Rame Seishin Jutsu"></iframe>
-        </section>
-
         <section id="secao-fotos" class="secao-admin" hidden>
           <header class="cabecalho-admin">
             <h1>Fotos do site</h1>
@@ -147,6 +148,7 @@
             </form>
             <section class="superficie-admin lista-admin" aria-labelledby="titulo-equipe">
               <h2 id="titulo-equipe">Equipe do painel</h2>
+              <p id="aviso-equipe" class="aviso-admin" role="status" aria-atomic="true"></p>
               <ul id="lista-administradores" class="equipe-admin"></ul>
             </section>
           </div>
@@ -175,5 +177,21 @@
     </div>
 
   </main>
+  <template id="modelo-redefinir-senha">
+    <form class="formulario-admin redefinir-senha-admin" hidden>
+      <label class="campo-admin">Nova senha
+        <input name="novaSenha" type="password" autocomplete="new-password" minlength="8" required>
+        <small>Mínimo de 8 caracteres.</small>
+      </label>
+      <label class="campo-admin">Confirme a nova senha
+        <input name="confirmacao" type="password" autocomplete="new-password" minlength="8" required>
+      </label>
+      <p class="aviso-admin" data-aviso-formulario role="status" aria-atomic="true"></p>
+      <div class="acoes-admin">
+        <button class="botao-admin botao-acao">Salvar senha</button>
+        <button class="botao-admin botao-neutro" type="button" data-cancelar>Cancelar</button>
+      </div>
+    </form>
+  </template>
 </body>
 </html>

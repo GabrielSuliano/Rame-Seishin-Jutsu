@@ -71,4 +71,35 @@ async function criarAdministrador(nome, nomeNormalizado, senha) {
   throw erroCadastro;
 }
 
-module.exports = { normalizarNome, obterEmailDeAcesso, identificarAdministrador, listarAdministradores, criarAdministrador };
+async function buscarAdministradorGerenciavel(identificador) {
+  if (!/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(identificador) || identificador.toLowerCase() === idAdministradorPrincipal?.toLowerCase()) {
+    return null;
+  }
+  return buscarAdministrador('id', identificador);
+}
+
+async function redefinirSenha(identificador, senha) {
+  const administrador = await buscarAdministradorGerenciavel(identificador);
+  if (!administrador) return false;
+
+  const { error: erro } = await supabaseServidor.auth.admin.updateUserById(administrador.id, { password: senha });
+  if (erro?.status === 404) return false;
+  if (erro) throw erro;
+  return true;
+}
+
+async function excluirAdministrador(identificador) {
+  const administrador = await buscarAdministradorGerenciavel(identificador);
+  if (!administrador) return false;
+
+  // O cadastro vinculado em public.administradores é removido pelo ON DELETE CASCADE.
+  const { error: erro } = await supabaseServidor.auth.admin.deleteUser(administrador.id);
+  if (erro?.status === 404) return false;
+  if (erro) throw erro;
+  return true;
+}
+
+module.exports = {
+  normalizarNome, obterEmailDeAcesso, identificarAdministrador, listarAdministradores,
+  criarAdministrador, redefinirSenha, excluirAdministrador
+};

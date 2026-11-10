@@ -1,0 +1,111 @@
+[hidden] {
+  display: none !important;
+}
+
+.area-eventos {
+  padding-block: clamp(2rem, 6vw, 5rem);
+  min-height: 60vh;
+}
+
+.area-eventos h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+}
+
+.area-eventos h2,
+.area-eventos p {
+  margin-block: 0.75rem;
+}
+
+.grade-eventos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+  gap: 1.25rem;
+  margin-block: 1.5rem;
+}
+
+.cartao-evento,
+.formulario-painel {
+  background: #fff;
+  color: #191919;
+  border: 1px solid #ddd;
+  border-radius: 0.6rem;
+  padding: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.cartao-evento h3 {
+  margin-block: 0.75rem;
+}
+
+.cartao-evento img,
+#selecao-fotos img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0.35rem;
+}
+
+.galeria-evento img {
+  display: block;
+  width: 100%;
+  border-radius: 0.35rem;
+}
+
+.descricao-evento {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.formulario-painel {
+  display: grid;
+  gap: 1rem;
+  max-width: 48rem;
+  margin-block: 1.5rem;
+}
+
+.formulario-painel label,
+.cartao-evento input[type="file"] {
+  display: block;
+}
+
+.formulario-painel input:not([type="checkbox"]),
+.formulario-painel textarea,
+.cartao-evento input[type="file"] {
+  width: 100%;
+  margin-block: 0.35rem;
+  padding: 0.65rem;
+  font: inherit;
+}
+
+.formulario-painel fieldset {
+  padding: 0.75rem;
+  min-width: 0;
+}
+
+.acoes-painel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.cartao-evento .botao {
+  margin: 0.25rem 0.25rem 0.25rem 0;
+}
+
+.secao-painel {
+  padding-block: 1rem;
+}
+
+#aviso {
+  position: sticky;
+  top: 0.5rem;
+  z-index: 5;
+}
+
+#aviso:not(:empty) {
+  background: #171717;
+  color: #fff;
+  border-radius: 0.35rem;
+  padding: 0.75rem;
+}

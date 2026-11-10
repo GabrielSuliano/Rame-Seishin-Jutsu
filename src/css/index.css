@@ -5,7 +5,7 @@
   color: var(--cor-branca);
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.36) 0%, rgba(0, 0, 0, 0.16) 36%, rgba(0, 0, 0, 0.02) 68%, rgba(0, 0, 0, 0.04) 100%),
-    url("../imagens/foto2.png") center top / cover no-repeat,
+    var(--foto2, url("../imagens/foto2.png")) center top / cover no-repeat,
     var(--cor-preta);
 }
 
@@ -519,7 +519,7 @@
   color: var(--cor-branca);
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.18) 100%),
-    url("../imagens/foto1.png") center 36% / cover no-repeat,
+    var(--foto1, url("../imagens/foto1.png")) center 36% / cover no-repeat,
     var(--cor-preta);
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
 }

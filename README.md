@@ -55,6 +55,15 @@ Configuracao recomendada:
 - Build Command: `npm run build`
 - Output Directory: `dist`
 
-## Status
+## Eventos e administração
 
-Projeto front-end estatico pronto para publicacao e manutencao de conteudo.
+A API usa Node.js 24, Express, CommonJS e MVC. O Supabase hospeda o banco, a autenticação e as fotos. Os eventos ficam disponíveis em `/eventos.html` e o painel em `/admin` no servidor Node.
+
+1. Execute `supabase/migrations/202611100001_eventos_e_fotos.sql` no projeto Supabase.
+2. Em Authentication → Users, crie e confirme a conta interna `admin@rame.example.com`. Escolha a senha nessa tela. No painel, entre com `admin` e a senha escolhida. Use `NOME_ADMIN` para personalizar o nome exibido no login.
+3. Copie `backend/.env.example` para `backend/.env` no ambiente local e preencha a URL, a chave publicável e a chave secreta do Supabase. A chave secreta é exclusiva do servidor.
+4. Rode `npm ci --prefix backend`, `npm run build` e `npm start --prefix backend`. Abra `http://localhost:3000/admin`.
+
+No Render, selecione um Web Service Free com os comandos e variáveis definidos em `render.yaml`. O servidor entrega a API, o painel e o site. Para servir o site também pela Vercel, configure `URL_BACKEND_PUBLICO` com a origem HTTPS do serviço Render antes de gerar um novo build.
+
+O administrador pode publicar, editar e excluir eventos, substituir ou restaurar as quatro fotos usadas nas páginas do site e alterar a senha. As fotos de eventos são públicas e podem ser abertas em tamanho maior. Cada evento aceita até 24 fotos, com até 4 por envio e 6 MB por arquivo.

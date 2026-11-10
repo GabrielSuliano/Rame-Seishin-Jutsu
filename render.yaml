@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: rame-seishin-jutsu
+    runtime: node
+    plan: free
+    branch: feature/admin-eventos
+    buildCommand: npm ci --prefix backend && npm run build
+    startCommand: npm start --prefix backend
+    healthCheckPath: /api/saude
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.0
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_CHAVE_PUBLICA
+        sync: false
+      - key: SUPABASE_CHAVE_SECRETA
+        sync: false
+      - key: NOME_ADMIN
+        value: admin

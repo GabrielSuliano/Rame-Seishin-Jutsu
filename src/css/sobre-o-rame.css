@@ -124,7 +124,7 @@
   color: var(--cor-branca);
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.46) 0%, rgba(0, 0, 0, 0.18) 100%),
-    url("../imagens/foto2.png") center top / cover no-repeat,
+    var(--foto2, url("../imagens/foto2.png")) center top / cover no-repeat,
     var(--cor-preta);
   text-align: center;
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);

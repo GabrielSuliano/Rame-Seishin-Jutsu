@@ -1,4 +1,4 @@
-import { cp, mkdir, readdir, rm } from 'node:fs/promises';
+import { cp, mkdir, readdir, rm, writeFile } from 'node:fs/promises';
 import { extname, join } from 'node:path';
 
 const origem = 'src';
@@ -23,5 +23,12 @@ await Promise.all(
 );
 
 await cp(join(origem, 'imagens', 'favicon.ico'), join(destino, 'favicon.ico'));
+
+const urlBackend = process.env.URL_BACKEND_PUBLICO?.trim();
+if (urlBackend) {
+  const origemBackend = new URL(urlBackend).origin;
+  await writeFile(join(destino, 'js', 'configuracao-api.js'),
+    `export const origemApi = ${JSON.stringify(origemBackend)};\n`);
+}
 
 console.log('Build estatico gerado em dist/');

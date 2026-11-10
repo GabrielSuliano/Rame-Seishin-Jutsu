@@ -5,7 +5,7 @@
   align-items: center;
   background:
     linear-gradient(90deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.16) 100%),
-    url("../imagens/foto1.png") center 20% / cover no-repeat,
+    var(--foto1, url("../imagens/foto1.png")) center 20% / cover no-repeat,
     var(--cor-preta);
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.72);
 }
@@ -109,7 +109,7 @@
 .imagem-samurai {
   min-height: 620px;
   border-radius: var(--raio-grande);
-  background: url("../imagens/foto4.png") center 24% / cover no-repeat, var(--cor-preta-card);
+  background: var(--foto4, url("../imagens/foto4.png")) center 24% / cover no-repeat, var(--cor-preta-card);
 }
 
 .texto-claro p {

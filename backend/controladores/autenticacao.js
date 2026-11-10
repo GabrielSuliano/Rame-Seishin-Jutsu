@@ -5,7 +5,7 @@ const nomeCookie = 'rame_admin';
 const opcoesCookie = { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production', path: '/api/admin' };
 
 function senhaValida(senha) {
-  return typeof senha === 'string' && senha.length >= 12 && Buffer.byteLength(senha) <= 72;
+  return typeof senha === 'string' && senha.length >= 8 && Buffer.byteLength(senha) <= 72;
 }
 
 async function entrar(requisicao, resposta) {
@@ -62,7 +62,7 @@ function sair(requisicao, resposta) {
 async function alterarSenha(requisicao, resposta) {
   const { senhaAtual, novaSenha } = requisicao.body || {};
   if (typeof senhaAtual !== 'string' || senhaAtual.length > 256 || !senhaValida(novaSenha) || senhaAtual === novaSenha) {
-    return resposta.status(400).json({ mensagem: 'Escolha uma senha diferente, com pelo menos 12 caracteres e até 72 bytes.' });
+    return resposta.status(400).json({ mensagem: 'Escolha uma senha diferente, com pelo menos 8 caracteres e até 72 bytes.' });
   }
 
   const clienteAutenticacao = criarClienteAutenticacao();
@@ -94,7 +94,7 @@ async function criarConta(requisicao, resposta) {
   if (nomeFormatado.length < 2 || nomeFormatado.length > 60 || !/^[\p{L}\p{N}][\p{L}\p{M}\p{N} ._'-]*$/u.test(nomeFormatado)) {
     return resposta.status(400).json({ mensagem: 'Informe um nome válido com 2 a 60 caracteres.' });
   }
-  if (!senhaValida(senha)) return resposta.status(400).json({ mensagem: 'Use uma senha com pelo menos 12 caracteres e até 72 bytes.' });
+  if (!senhaValida(senha)) return resposta.status(400).json({ mensagem: 'Use uma senha com pelo menos 8 caracteres e até 72 bytes.' });
 
   const nomeNormalizado = administradores.normalizarNome(nomeFormatado);
   if (nomeNormalizado === 'admin') return resposta.status(409).json({ mensagem: 'Esse nome está reservado.' });

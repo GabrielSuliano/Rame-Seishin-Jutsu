@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "URL_BACKEND_PUBLICO=https://rame-seishin-jutsu.onrender.com npm run build",
   "outputDirectory": "dist",
   "trailingSlash": false
 }

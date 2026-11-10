@@ -8,6 +8,7 @@ const avisoListaEventos = document.querySelector('#aviso-lista-eventos');
 const menuSiteAdmin = document.querySelector('#menu-site-admin');
 const avisoEquipe = document.querySelector('#aviso-equipe');
 const modeloRedefinirSenha = document.querySelector('#modelo-redefinir-senha');
+const modeloControleSenha = document.querySelector('#modelo-controle-senha');
 const formularioEvento = document.querySelector('#formulario-evento');
 const listaEventos = document.querySelector('#lista-eventos');
 const listaFotosSite = document.querySelector('#lista-fotos-site');
@@ -18,11 +19,10 @@ const fotosAtuais = document.querySelector('#fotos-atuais');
 const selecaoFotos = document.querySelector('#selecao-fotos');
 const cancelarEdicao = document.querySelector('#cancelar-edicao');
 const botaoSair = document.querySelector('#sair');
-const campoSenhaLogin = document.querySelector('#senha-login');
-const botaoVerSenha = document.querySelector('#ver-senha');
 const linksSecoes = [...document.querySelectorAll('[data-secao]')];
 const formatoData = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium', timeZone: 'America/Sao_Paulo' });
 let eventoEmEdicao = null;
+let contadorCamposSenha = 0;
 
 async function solicitar(caminho, metodo = 'GET', dados) {
   const cabecalhos = {};
@@ -239,6 +239,7 @@ function criarLinhaAdministrador(conta) {
 
   const caminhoConta = '/admin/administradores/' + encodeURIComponent(conta.id);
   const formulario = modeloRedefinirSenha.content.firstElementChild.cloneNode(true);
+  prepararControlesSenha(formulario);
   const avisoFormulario = formulario.querySelector('[data-aviso-formulario]');
   const acoes = criarElemento('div', 'acoes-admin acoes-conta-admin');
   const redefinir = criarBotao('Redefinir senha', () => {
@@ -298,10 +299,27 @@ async function carregarAdministradores() {
   listaAdministradores.replaceChildren(...[{ nome: 'admin', principal: true }, ...contas].map(criarLinhaAdministrador));
 }
 
-function exibirSenha(visivel) {
-  campoSenhaLogin.type = visivel ? 'text' : 'password';
-  botaoVerSenha.textContent = visivel ? 'Ocultar' : 'Mostrar';
-  botaoVerSenha.setAttribute('aria-pressed', String(visivel));
+function prepararControlesSenha(formulario) {
+  for (const campo of formulario.querySelectorAll('[data-visualizar-senha]')) {
+    const controle = modeloControleSenha.content.firstElementChild.cloneNode(true);
+    const grupoCampo = campo.closest('.campo-admin');
+    if (!campo.id) campo.id = 'campo-senha-' + ++contadorCamposSenha;
+    grupoCampo.querySelector('label').htmlFor = campo.id;
+    controle.setAttribute('aria-controls', campo.id);
+
+    function alterarVisibilidade(visivel) {
+      campo.type = visivel ? 'text' : 'password';
+      controle.toggleAttribute('data-visivel', visivel);
+      const rotulo = (visivel ? 'Ocultar ' : 'Mostrar ') + campo.dataset.visualizarSenha;
+      controle.setAttribute('aria-label', rotulo);
+      controle.title = rotulo;
+    }
+
+    controle.addEventListener('click', () => alterarVisibilidade(campo.type === 'password'));
+    formulario.addEventListener('reset', () => alterarVisibilidade(false));
+    alterarVisibilidade(false);
+    campo.parentElement.append(controle);
+  }
 }
 
 function exibirLogin() {
@@ -314,7 +332,6 @@ function exibirLogin() {
   formularioLogin.reset();
   formularioSenha.reset();
   formularioAdministrador.reset();
-  exibirSenha(false);
   encerrarEdicao();
 }
 
@@ -382,7 +399,8 @@ acaoAoEnviar(formularioSenha, async (dados, avisar) => {
 
 cancelarEdicao.addEventListener('click', encerrarEdicao);
 window.addEventListener('hashchange', exibirSecao);
-botaoVerSenha.addEventListener('click', () => exibirSenha(campoSenhaLogin.type === 'password'));
+prepararControlesSenha(formularioLogin);
+prepararControlesSenha(formularioSenha);
 botaoSair.addEventListener('click', async () => {
   try {
     await solicitar('/admin/sair', 'POST');

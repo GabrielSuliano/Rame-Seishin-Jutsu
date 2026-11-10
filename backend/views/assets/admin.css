@@ -113,18 +113,22 @@
 }
 
 .campo-com-acao { position: relative; }
-.campo-com-acao input { padding-inline-end: 5.5rem; }
+.campo-com-acao input { padding-inline-end: 3.25rem; }
 .controle-senha {
   position: absolute;
   inset: 1px 1px 1px auto;
-  width: 5rem;
+  display: grid;
+  place-items: center;
+  width: 44px;
   border: 0;
   border-radius: 6px;
   background: #fff;
   color: var(--vinho-admin);
-  font: inherit;
   cursor: pointer;
 }
+.controle-senha:hover { background: #fafafa; }
+.controle-senha svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.controle-senha:not([data-visivel]) [data-icone-ocultar], .controle-senha[data-visivel] [data-icone-mostrar] { display: none; }
 
 .envio-admin { padding: 0.8rem; background: #fafafa; border: 1px dashed #cfcfcf; border-radius: 8px; }
 .envio-admin input[type="file"] { padding: 0.4rem; font-size: 0.82rem; }

@@ -1,10 +1,10 @@
 {
-  "buildCommand": "URL_BACKEND_PUBLICO=https://rame-seishin-jutsu.onrender.com npm run build",
+  "buildCommand": "URL_BACKEND_PUBLICO=https://p01--rame-backend-teste--qlb6cn9qwsxt.code.run npm run build",
   "outputDirectory": "dist",
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/admin", "destination": "https://rame-seishin-jutsu.onrender.com/admin" },
-    { "source": "/painel-assets/:caminho*", "destination": "https://rame-seishin-jutsu.onrender.com/painel-assets/:caminho*" },
-    { "source": "/api/:caminho*", "destination": "https://rame-seishin-jutsu.onrender.com/api/:caminho*" }
+    { "source": "/admin", "destination": "https://p01--rame-backend-teste--qlb6cn9qwsxt.code.run/admin" },
+    { "source": "/painel-assets/:caminho*", "destination": "https://p01--rame-backend-teste--qlb6cn9qwsxt.code.run/painel-assets/:caminho*" },
+    { "source": "/api/:caminho*", "destination": "https://p01--rame-backend-teste--qlb6cn9qwsxt.code.run/api/:caminho*" }
   ]
 }

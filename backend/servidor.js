@@ -9,7 +9,7 @@ const porta = Number(process.env.PORT || 3000);
 
 aplicacao.disable('x-powered-by');
 aplicacao.set('json escape', true);
-if (process.env.RENDER === 'true') aplicacao.set('trust proxy', 1);
+if (process.env.RENDER === 'true' || process.env.NF_DEPLOYMENT_SHA) aplicacao.set('trust proxy', 1);
 
 aplicacao.use((requisicao, resposta, proximo) => {
   resposta.set('X-Content-Type-Options', 'nosniff');

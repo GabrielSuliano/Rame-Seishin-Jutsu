@@ -58,7 +58,7 @@ rotasAdmin.post('/sair', autenticacao.sair);
 rotasAdmin.use(autenticacao.exigirAdministrador);
 rotasAdmin.get('/sessao', autenticacao.sessao);
 rotasAdmin.get('/administradores', autenticacao.exigirAdministradorPrincipal, autenticacao.listarContas);
-rotasAdmin.post('/administradores', autenticacao.exigirAdministradorPrincipal, limitarTentativas, autenticacao.criarConta);
+rotasAdmin.post('/administradores', limitarTentativas, autenticacao.criarConta);
 rotasAdmin.patch('/administradores/:identificador/senha', autenticacao.exigirAdministradorPrincipal, limitarTentativas, autenticacao.redefinirSenhaConta);
 rotasAdmin.delete('/administradores/:identificador', autenticacao.exigirAdministradorPrincipal, autenticacao.excluirConta);
 rotasAdmin.patch('/senha', limitarTentativas, autenticacao.alterarSenha);

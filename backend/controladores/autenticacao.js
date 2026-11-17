@@ -49,7 +49,7 @@ async function exigirAdministrador(requisicao, resposta, proximo) {
 }
 
 function exigirAdministradorPrincipal(requisicao, resposta, proximo) {
-  if (!requisicao.administrador.principal) return resposta.status(403).json({ mensagem: 'Somente a conta admin pode cadastrar administradores.' });
+  if (!requisicao.administrador.principal) return resposta.status(403).json({ mensagem: 'Somente a conta principal pode gerenciar administradores existentes.' });
   proximo();
 }
 

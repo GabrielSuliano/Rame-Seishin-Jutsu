@@ -346,7 +346,8 @@ async function exibirPainel(sessao) {
   document.querySelector('#nome-admin').textContent = sessao.nome;
   document.querySelector('#avatar-admin').textContent = sessao.nome[0].toLocaleUpperCase('pt-BR');
   document.querySelector('#perfil-admin').textContent = sessao.principal ? 'Conta principal' : 'Administrador';
-  document.querySelector('#link-administradores').hidden = !sessao.principal;
+  document.querySelector('#link-administradores').hidden = false;
+  document.querySelector('#equipe-administradores').hidden = !sessao.principal;
   exibirSecao();
   const tarefas = [carregarEventos(), carregarFotosSite()];
   if (sessao.principal) tarefas.push(carregarAdministradores());
@@ -385,7 +386,9 @@ acaoAoEnviar(formularioAdministrador, async (dados, avisar) => {
   if (senha !== confirmacao) throw new Error('A confirmação precisa ser igual à senha inicial.');
   const conta = await solicitar('/admin/administradores', 'POST', { nome, senha });
   formularioAdministrador.reset();
-  listaAdministradores.append(criarLinhaAdministrador(conta));
+  if (!document.querySelector('#equipe-administradores').hidden) {
+    listaAdministradores.append(criarLinhaAdministrador(conta));
+  }
   avisar('Administrador cadastrado.', 'sucesso');
 });
 

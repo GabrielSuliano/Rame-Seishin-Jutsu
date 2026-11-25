@@ -1,72 +1,80 @@
 # Rame Seishin Jutsu
 
-Site institucional estatico sobre Rame Seishin Jutsu, organizado em paginas HTML, CSS e JavaScript puro. O projeto foi estruturado para apresentar historia, fundamentos, mestres, contato e conteudos complementares, com build simples para deploy na Vercel.
+Site institucional sobre história, fundamentos e mestres, integrado a uma API de eventos, galeria de fotos e painel administrativo. Frontend HTML/CSS/JavaScript e backend Node.js com Supabase.
 
-## Recursos
+**Site:** [rame-seishin-jutsu.vercel.app](https://rame-seishin-jutsu.vercel.app). Respondeu HTTP 200 em 25/11/2026. Isso não comprova login, uploads ou operações administrativas.
 
-- Pagina inicial com apresentacao do tema.
-- Paginas internas para historia, fundamentos, mestres, sobre e contato.
-- CSS separado por pagina, com uma base compartilhada.
-- JavaScript modular por area do site.
-- Pasta de imagens com fotos, favicon e assets de marca.
-- Script de build que gera a pasta `dist/` para publicacao.
+## Funcionalidades e estado
 
-## Stack
+- Páginas institucionais e exibição pública de eventos/fotos.
+- Login administrativo por nome/senha e sessão em cookie HTTP-only.
+- Criação, edição e exclusão de eventos, com controle de versão para concorrência.
+- Upload/conversão de imagens com Sharp; quatro arquivos por envio, 6 MB por arquivo e até 24 fotos por evento.
+- Substituição/restauração das quatro fotos institucionais.
+- Cadastro de administradores por administradores autenticados; somente a conta principal lista, exclui ou redefine senhas das demais contas.
 
-- HTML5
-- CSS3
-- JavaScript
-- Node.js 18+ apenas para o script de build
-- Vercel para deploy estatico
+Capacidades presentes no código. Esta revisão não fez escritas no Supabase, login real ou migrations.
 
-## Estrutura
+## Tecnologias
 
-```text
-.
-├── src/
-│   ├── paginas/      # Arquivos HTML
-│   ├── css/          # Estilos por pagina e base compartilhada
-│   ├── js/           # Scripts do site
-│   └── imagens/      # Fotos, favicon e imagens do projeto
-├── scripts/
-│   └── build.mjs     # Copia os arquivos para dist/
-├── vercel.json
-└── package.json
+Frontend sem framework, build em Node `>=18`. O backend exige **Node 24.x**, usa CommonJS, Express `^5.3.0`, Supabase JS `^2.119.0`, Multer `^2.5.0`, Sharp `^0.35.5`, cookie-parser e express-rate-limit. Intervalos conforme manifests; resoluções em `backend/package-lock.json`.
+
+## Arquitetura e estrutura
+
+```mermaid
+flowchart LR
+  S[Site estático] -->|GET público| R[Rotas Express]
+  A[Painel no servidor Node] -->|Cookie e cabeçalho do painel| R
+  R --> C[Controladores]
+  C --> M[Modelos]
+  M --> D[Supabase Auth e Postgres]
+  M --> F[Supabase Storage]
 ```
 
-## Como rodar localmente
+- `src/paginas/`, `src/css/`, `src/js/`, `src/imagens/`: site público.
+- `backend/servidor.js`: middleware HTTP, API e arquivos estáticos.
+- `backend/rotas/api.js`: rotas, acesso e upload.
+- `backend/controladores/`: autenticação, eventos e fotos.
+- `backend/modelos/`: acesso a Auth, tabelas e Storage.
+- `backend/views/`: painel administrativo.
+- `supabase/migrations/`: esquema SQL versionado.
+- `scripts/build.mjs`: gera `dist/`, substituindo a saída anterior.
 
-Por ser um site estatico, basta abrir os arquivos de `src/paginas/` no navegador ou servir a pasta com uma extensao como Live Server.
+## Ambiente local
 
-## Build
+Use Supabase de desenvolvimento separado da produção. Revise as migrations em ordem antes de aplicá-las manualmente apenas nesse ambiente. A conta principal deve existir no Auth e estar confirmada; indique o UID em `ID_ADMIN_PRINCIPAL` ou confira a alternativa de conta interna em `backend/modelos/administradores.js`.
 
 ```bash
-npm install
-npm run build
+npm ci --prefix backend
 ```
 
-O comando recria a pasta `dist/` com HTML, CSS, JS e imagens prontos para deploy.
+Copie `backend/.env.example` para `backend/.env`, preenchendo apenas no seu ambiente:
 
-## Deploy na Vercel
+| Variável | Uso |
+| --- | --- |
+| `SUPABASE_URL` | Projeto Supabase de desenvolvimento |
+| `SUPABASE_CHAVE_PUBLICA` | Cliente de autenticação |
+| `SUPABASE_CHAVE_SECRETA` | Operações privilegiadas; exclusiva do backend |
+| `ID_ADMIN_PRINCIPAL` | UID da conta principal confirmada |
+| `PORT` | Porta HTTP, padrão 3000 |
+| `NODE_ENV` | `production` ativa Secure no cookie |
+| `URL_BACKEND_PUBLICO` | Origem da API no build do site |
 
-Configuracao recomendada:
+```bash
+npm run build
+npm start --prefix backend
+```
 
-- Framework Preset: `Other`
-- Build Command: `npm run build`
-- Output Directory: `dist`
+Abra `http://localhost:3000/index.html` e `http://localhost:3000/admin`. Sem `URL_BACKEND_PUBLICO`, o build preserva a origem versionada em `src/js/configuracao-api.js`; confira esse arquivo para usar backend local. Nunca coloque chave secreta no frontend.
 
-## Eventos e administração
+## API, dados e implantação
 
-A API usa Node.js 24, Express, CommonJS e MVC. O Supabase hospeda o banco, a autenticação e as fotos. Os eventos ficam disponíveis em `/eventos.html` e o painel em `/admin` no servidor Node.
+Consulte [API](docs/API.md) e [arquitetura e dados](docs/ARCHITECTURE.md). As migrations definem `eventos`, `fotos_site`, `administradores`, vínculo ao Auth, bucket de imagens e políticas.
 
-1. Aplique os arquivos em `supabase/migrations/` na ordem dos nomes.
-2. Em Authentication → Users, crie e confirme a conta interna `admin@rame.example.com`. Escolha a senha nessa tela. No painel, entre com `admin` e a senha escolhida.
-3. Copie `backend/.env.example` para `backend/.env` no ambiente local e preencha a URL, a chave publicável e a chave secreta do Supabase. A chave secreta é exclusiva do servidor.
-4. Rode `npm ci --prefix backend`, `npm run build` e `npm start --prefix backend`. Abra `http://localhost:3000/admin`.
+`vercel.json` configura o site estático; `Dockerfile` e `render.yaml` descrevem opções do backend. Esses arquivos não comprovam o provedor ativo. O site precisa receber a origem correta do backend no build; o painel é acessado no servidor Node. Não houve deploy nesta revisão.
 
-No Render, selecione um Web Service Free com os comandos e variáveis definidos em `render.yaml`. O servidor entrega a API, o painel e o site. O comando em `vercel.json` gera o site público com `URL_BACKEND_PUBLICO` apontando para a API no Render.
+## Testes, limitações e evolução
 
-O administrador pode publicar, editar e excluir eventos, substituir ou restaurar as quatro fotos usadas nas páginas do site e alterar a senha. As fotos de eventos são públicas e podem ser abertas em tamanho maior. Cada evento aceita até 24 fotos, com até 4 por envio e 6 MB por arquivo.
+Não há script de testes ou suíte automatizada versionada. Revisão estática não equivale a teste de integração. Prioridades: testes de autorização, concorrência e falhas de upload; revisão das dependências e dos documentos históricos em `src/`.
 
-Todos os administradores podem cadastrar novos administradores pelo painel. A conta principal `admin` pode listar e excluir contas e redefinir a senha de outros administradores. Cada pessoa entra com o nome cadastrado e a própria senha.
-Para usar uma conta existente do Supabase como `admin`, defina `ID_ADMIN_PRINCIPAL` com o UID dela em Authentication → Users. Ela precisa estar confirmada.
+Não há licença versionada. A documentação não concede licença para conteúdo, marca ou fotografias.
